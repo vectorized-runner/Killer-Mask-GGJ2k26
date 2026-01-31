@@ -6,7 +6,9 @@ namespace KillerLocomotion
     public class KillerLocomotionController : MonoBehaviour
     {
         [SerializeField] private Transform[] _waypoints;
+        [SerializeField] private Transform[] _waypoints_out;
         [SerializeField] private AnimationClip[] _animations;
+        [SerializeField] private AnimationClip[] _animations_out;
         [SerializeField] private Animator _animator;
         [SerializeField] private float _speed = 2f;
         
@@ -15,18 +17,23 @@ namespace KillerLocomotion
         
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.I))
             {
-                StartMovementLocomotion();
+                StartInComingMovementLocomotion();
             }
             
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.O))
+            {
+                StartOutGoingMovementLocomotion();
+            }
+            
+            if(Input.GetKeyDown(KeyCode.R))
             {
                 ResetMovementLocomotion();
             }
         }
         
-        private void StartMovementLocomotion()
+        private void StartInComingMovementLocomotion()
         {
             _movementSequence = DOTween.Sequence();
             for (int i = 0; i < _waypoints.Length; i++)
@@ -40,6 +47,24 @@ namespace KillerLocomotion
                 });
                 _movementSequence.Append(transform.DOMove(_waypoints[i].position, _speed).SetEase(Ease.Linear));
                 _movementSequence.Join(transform.DORotateQuaternion(_waypoints[i].rotation, _speed).SetEase(Ease.Linear));
+            }
+            _movementSequence.Play();
+        }
+        
+        private void StartOutGoingMovementLocomotion()
+        {
+            _movementSequence = DOTween.Sequence();
+            for (int i = 0; i < _waypoints_out.Length; i++)
+            {
+                int animIndex = i;
+                _movementSequence.AppendCallback(() => {
+                    if (_animations_out.Length > animIndex)
+                    {
+                        _animator.Play(_animations_out[animIndex].name);
+                    }
+                });
+                _movementSequence.Append(transform.DOMove(_waypoints_out[i].position, _speed).SetEase(Ease.Linear));
+                _movementSequence.Join(transform.DORotateQuaternion(_waypoints_out[i].rotation, _speed).SetEase(Ease.Linear));
             }
             _movementSequence.Play();
         }

@@ -4672,6 +4672,34 @@ PrefabInstance:
       propertyPath: '_waypoints.Array.data[5]'
       value: 
       objectReference: {fileID: 1908361833}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: _waypoints_out.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1908361833}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2047081641}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1668387902}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[3]'
+      value: 
+      objectReference: {fileID: 726332707}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1169053753}
+    - target: {fileID: 866654278225364546, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
+      propertyPath: '_waypoints_out.Array.data[5]'
+      value: 
+      objectReference: {fileID: 539821610}
     - target: {fileID: 4966310004597055725, guid: c34db8d7148cd4571b2ae44f03f13314, type: 3}
       propertyPath: m_Name
       value: Brian
