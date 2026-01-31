@@ -1,7 +1,6 @@
 using CameraModule;
-using System;
 using System.Collections;
-using DG.Tweening;
+using CarvingModule;
 using KillerLocomotion;
 using Scene;
 using UnityEngine;
@@ -30,9 +29,12 @@ namespace GameManager
 		public GameState State;
 		public float KillerComeInDelay = 0.5f;
 		public float DoorCloseDelay = 0.5f;
+		public float MaskEditDelay = 1.0f;
 		
 		private FreelookCamera _freelookCam;
 		private KillerLocomotionController _killer;
+		private MaskCarvingModule _carvingModule;
+		private CameraManager _cameraManager;
 		
 		private void Start()
 		{
@@ -40,6 +42,7 @@ namespace GameManager
 			
 			_freelookCam = FindFirstObjectByType<FreelookCamera>();
 			_killer = FindFirstObjectByType<KillerLocomotionController>();
+			_cameraManager = FindFirstObjectByType<CameraManager>();
 			StartCoroutine(GameLoop());
 		}
 
@@ -83,7 +86,6 @@ namespace GameManager
 			var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
 			yield return coroutine;
 			
-
 			yield return new WaitForSeconds(KillerComeInDelay);
 			
 			_killer.StartInComingMovementLocomotion();
@@ -96,7 +98,12 @@ namespace GameManager
 
 			State = GameState.TableSetup;
 			
-			// TODO: Move the camera
+			_cameraManager.MoveToPosition(CameraPositionType.MaskEditing);
+			yield return new WaitForSeconds(MaskEditDelay);
+
+			State = GameState.MaskCarving;
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			
 			Debug.LogError("Done");
 			
