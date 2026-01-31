@@ -73,21 +73,10 @@ namespace CarvingModule
 
         private void Update()
         {
-            HandleInput();
             HandleRotation();
             HandleCarving();
         }
-
-        private void HandleInput()
-        {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1)) { currentMode = CarvingMode.Carve; useSanding = false; Debug.Log("Mode: Carve"); }
-                if (Input.GetKeyDown(KeyCode.Alpha2)) { currentMode = CarvingMode.Raise; useSanding = false; Debug.Log("Mode: Raise"); }
-                if (Input.GetKeyDown(KeyCode.Alpha3)) { currentMode = CarvingMode.Drag; useSanding = false; Debug.Log("Mode: Drag"); }
-            }
-        }
-
+     
         private void HandleRotation()
         {
             // Rotate with Right Mouse Button
