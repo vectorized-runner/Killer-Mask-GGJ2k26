@@ -11,6 +11,8 @@ namespace KillerLocomotion
         [SerializeField] private AnimationClip[] _animations_out;
         [SerializeField] private Animator _animator;
         [SerializeField] private float _speed = 2f;
+
+        public Sequence IncomingMovementSequence;
         
         private Sequence _movementSequence;
         private int _currentWaypointIndex;
@@ -35,7 +37,7 @@ namespace KillerLocomotion
         
         public void StartInComingMovementLocomotion()
         {
-            _movementSequence = DOTween.Sequence();
+            IncomingMovementSequence = DOTween.Sequence();
             Vector3 previousPosition = transform.position;
             for (int i = 0; i < _waypoints.Length; i++)
             {
@@ -44,17 +46,17 @@ namespace KillerLocomotion
                 Quaternion targetRotation = _waypoints[i].rotation;
                 float distance = Vector3.Distance(previousPosition, targetPosition);
                 float duration = (distance < 0.01f) ? 0f : distance / _speed;
-                _movementSequence.AppendCallback(() => {
+                IncomingMovementSequence.AppendCallback(() => {
                     if (_animations.Length > animIndex)
                     {
                         _animator.Play(_animations[animIndex].name);
                     }
                 });
-                _movementSequence.Append(transform.DOMove(targetPosition, duration).SetEase(Ease.Linear));
-                _movementSequence.Join(transform.DORotateQuaternion(targetRotation, duration).SetEase(Ease.Linear));
+                IncomingMovementSequence.Append(transform.DOMove(targetPosition, duration).SetEase(Ease.Linear));
+                IncomingMovementSequence.Join(transform.DORotateQuaternion(targetRotation, duration).SetEase(Ease.Linear));
                 previousPosition = targetPosition;
             }
-            _movementSequence.Play();
+            IncomingMovementSequence.Play();
         }
         
         public void StartOutGoingMovementLocomotion()

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using DG.Tweening;
+using KillerLocomotion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,12 +20,14 @@ namespace GameManager
 		public GameState State;
 		
 		private FreelookCamera _freelookCam;
+		private KillerLocomotionController _killer;
 		
 		private void Start()
 		{
 			State = GameState.WaitingForStartInput;
 			
 			_freelookCam = FindFirstObjectByType<FreelookCamera>();
+			_killer = FindFirstObjectByType<KillerLocomotionController>();
 			StartCoroutine(GameLoop());
 		}
 
