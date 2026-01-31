@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ccbdea634bcfa8b4c8c6a3522c1dd22d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 157577
+  packageName: Masks pack 2
+  packageVersion: 1.0
+  assetPath: Assets/_MasksPack2/__CubemapsShaders/ASE_Standart2SidedSimple.shader
+  uploadId: 339754
