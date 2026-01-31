@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &539094034086354138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2735500714359840431}
+  m_Layer: 0
+  m_Name: MaskEditingCamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2735500714359840431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539094034086354138}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3535534, y: -0.61237246, z: 0.3535534, w: 0.61237246}
+  m_LocalPosition: {x: -8.056, y: 1.7, z: 0.490492}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 17246891546406738}
+  m_LocalEulerAnglesHint: {x: 60, y: -90, z: 0}
+--- !u!1 &1915349598854134349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5791910433511368359}
+  m_Layer: 0
+  m_Name: DefaultCamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5791910433511368359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915349598854134349}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.15304591, y: -0.6903456, z: 0.15304591, w: 0.6903456}
+  m_LocalPosition: {x: -7.697, y: 1.568, z: 0.490492}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 17246891546406738}
+  m_LocalEulerAnglesHint: {x: 25, y: -90, z: 0}
 --- !u!1 &7064228395871540876
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 17246891546406738}
+  - component: {fileID: 1766685924576692536}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: Untagged
@@ -30,8 +93,30 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 952700885675416722}
+  - {fileID: 5791910433511368359}
+  - {fileID: 2735500714359840431}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766685924576692536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064228395871540876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b53ae597f3541e482a59d8cd67e61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::CameraModule.CameraManager
+  _cameraTransform: {fileID: 952700885675416722}
+  _cameraPositions:
+  - Type: 0
+    TargetTransform: {fileID: 5791910433511368359}
+  - Type: 1
+    TargetTransform: {fileID: 2735500714359840431}
+  _moveSpeed: 3
+  _rotateSpeed: 3
 --- !u!1001 &2593409021879968621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50,15 +135,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.41809988
+      value: -7.697
       objectReference: {fileID: 0}
     - target: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.558
+      value: 1.568
       objectReference: {fileID: 0}
     - target: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.1107777
+      value: 0.490492
       objectReference: {fileID: 0}
     - target: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_LocalRotation.w
