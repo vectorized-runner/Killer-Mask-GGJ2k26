@@ -82,7 +82,7 @@ namespace GameManager
 			
 			StartCoroutine(FindFirstObjectByType<AutoDoorScript>().CloseDoor());
 
-			yield return new WaitUntil(() => _killer.IncomingMovementSequence.IsComplete());
+			yield return new WaitUntil(() => !_killer.IncomingMovementSequence.active);
 			
 			Debug.LogError("Done");
 			
