@@ -31,7 +31,13 @@ namespace DeskModule
 
         public GameObject MaskObject;
 
+        public Material OutlineMaterialTemplate; // Inspector'dan atanacak, URPOutlineShader kullanmalı
+
         private Dictionary<Transform, Vector3> _originalPositions = new Dictionary<Transform, Vector3>();
+        private Dictionary<MeshCollider, Material[]> _originalMaterials = new();
+        private Dictionary<MeshCollider, Material> _outlineMaterials = new();
+        private MeshCollider _hoveredCollider = null;
+        private MeshCollider _selectedCollider = null;
 
         private void Awake()
         {
@@ -50,6 +56,30 @@ namespace DeskModule
                         _originalPositions[mesh.transform] = mesh.transform.position;
                         mesh.transform.position += Vector3.up;
                     }
+                    // Outline materyalini 1. indexe ekle
+                    var meshRenderer = mesh.GetComponent<MeshRenderer>();
+                    if (meshRenderer != null && OutlineMaterialTemplate != null)
+                    {
+                        var originalMats = meshRenderer.sharedMaterials;
+                        _originalMaterials[mesh] = originalMats;
+                        Material[] newMats;
+                        if (originalMats.Length == 1)
+                        {
+                            newMats = new Material[2];
+                            newMats[0] = originalMats[0];
+                            newMats[1] = new Material(OutlineMaterialTemplate);
+                        }
+                        else
+                        {
+                            newMats = new Material[originalMats.Length];
+                            Array.Copy(originalMats, newMats, originalMats.Length);
+                            if (newMats.Length > 1)
+                                newMats[1] = new Material(OutlineMaterialTemplate);
+                        }
+                        newMats[1].SetFloat("_OutlineEnabled", 0f);
+                        meshRenderer.materials = newMats;
+                        _outlineMaterials[mesh] = newMats[1];
+                    }
                 }
             }
             if (MaskObject != null)
@@ -65,21 +95,43 @@ namespace DeskModule
         private void Update()
         {
             if (!_isEnabled || _isAnimating) return;
-            if (Input.GetMouseButtonDown(0))
+            // Mouse hover kontrolü
+            MeshCollider hovered = null;
+            if (Camera.main != null)
             {
-                if (Camera.main == null) return;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    foreach (var kvp in _toolCollidersDict)
+                    hovered = hit.collider as MeshCollider;
+                }
+            }
+            if (_hoveredCollider != hovered)
+            {
+                if (_hoveredCollider != null && _hoveredCollider != _selectedCollider)
+                    SetOutline(_hoveredCollider, false, Color.clear);
+                _hoveredCollider = hovered;
+                if (_hoveredCollider != null && _hoveredCollider != _selectedCollider)
+                    SetOutline(_hoveredCollider, true, Color.blue);
+            }
+            // Mouse click kontrolü
+            if (Input.GetMouseButtonDown(0) && _hoveredCollider != null)
+            {
+                foreach (var kvp in _toolCollidersDict)
+                {
+                    if (kvp.Value.Contains(_hoveredCollider))
                     {
-                        if (kvp.Value.Contains(hit.collider as MeshCollider))
-                        {
-                            OnToolSelected?.Invoke(kvp.Key);
-                            break;
-                        }
+                        _selectedCollider = _hoveredCollider;
+                        SetOutline(_selectedCollider, true, Color.yellow);
+                        OnToolSelected?.Invoke(kvp.Key);
+                        break;
                     }
                 }
+            }
+            // Seçili collider dışında kalanların outline'ını kapat
+            foreach (var kvp in _outlineMaterials)
+            {
+                if (kvp.Key != _hoveredCollider && kvp.Key != _selectedCollider)
+                    SetOutline(kvp.Key, false, Color.clear);
             }
         }
 
@@ -133,6 +185,16 @@ namespace DeskModule
                 yield return null;
             }
             mesh.position = to;
+        }
+
+        private void SetOutline(MeshCollider mesh, bool enabled, Color color)
+        {
+            if (_outlineMaterials.TryGetValue(mesh, out var mat))
+            {
+                mat.SetFloat("_OutlineEnabled", enabled ? 1f : 0f);
+                if (enabled && color != Color.clear)
+                    mat.SetColor("_OutlineColor", color);
+            }
         }
     }
 }

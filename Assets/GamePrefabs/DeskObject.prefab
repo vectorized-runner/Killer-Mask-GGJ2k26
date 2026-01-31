@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1247790397499450809}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.131, y: 0, z: 0.259}
+  m_LocalPosition: {x: -0.131, y: 0.029999971, z: 0.259}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -67,7 +67,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 85219b62ed4ed41ba964bcdd097175e4, type: 2}
+  - {fileID: 2100000, guid: 6c89c7dab5f794fb6a51c28f7c23d99c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 1352762466290160788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.016, y: 0, z: -0.564}
+  m_LocalPosition: {x: -0.016, y: 0.03, z: -0.564}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -180,7 +181,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 0ce20d51c36d04ab1bcbc0aac20a896c, type: 2}
+  - {fileID: 2100000, guid: 6c89c7dab5f794fb6a51c28f7c23d99c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -286,7 +288,7 @@ Transform:
   m_GameObject: {fileID: 7076834435933621867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.221, y: 0, z: -0.164}
+  m_LocalPosition: {x: -0.221, y: 0.029999971, z: -0.164}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -325,7 +327,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1684db10918ec4f9eb349b2e2813deb1, type: 2}
+  - {fileID: 2100000, guid: 6c89c7dab5f794fb6a51c28f7c23d99c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -430,6 +433,7 @@ MonoBehaviour:
     Colliders:
     - {fileID: 4222773194049735136}
   MaskObject: {fileID: 5425423955758365459}
+  OutlineMaterialTemplate: {fileID: 2100000, guid: 6c89c7dab5f794fb6a51c28f7c23d99c, type: 2}
 --- !u!1001 &1964253073062898428
 PrefabInstance:
   m_ObjectHideFlags: 0
