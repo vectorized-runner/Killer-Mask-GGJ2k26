@@ -1,3 +1,4 @@
+using System;
 using CameraModule;
 using System.Collections;
 using CarvingModule;
@@ -18,14 +19,6 @@ namespace GameManager
 		MaskOn,
 		KillerOutgoing,
 		End,
-	}
-	
-	public enum DeskTool
-	{
-		None,
-		Knife,
-		Brush,
-		Decal,
 	}
 	
 	public class GameManager : MonoBehaviour
@@ -117,8 +110,6 @@ namespace GameManager
 			deskModule.EnableDeskModule();
 			
 			yield return new WaitUntil(() => State == GameState.MaskOn);
-			
-			
 			
 			Debug.LogError("Done");
 			
