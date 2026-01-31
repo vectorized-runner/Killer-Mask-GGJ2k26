@@ -1,6 +1,7 @@
 using CameraModule;
 using System.Collections;
 using CarvingModule;
+using DeskModule;
 using KillerLocomotion;
 using Scene;
 using UnityEngine;
@@ -107,7 +108,10 @@ namespace GameManager
 			State = GameState.MaskCarving;
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
-
+			
+			var deskModule = FindFirstObjectByType<DeskModuleController>();
+			deskModule.EnableDeskModule();
+			
 			yield return new WaitUntil(() => State == GameState.MaskOn);
 			
 			
