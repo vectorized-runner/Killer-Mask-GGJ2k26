@@ -10,8 +10,12 @@ namespace CarvingModule
 
         [Header("Brush Settings")]
         [SerializeField] private float brushSize = 0.5f;
-        [SerializeField] private float brushStrength = 0.01f;
+        [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
+
+        public enum CarvingMode { Carve, Raise, Drag }
+        [Header("Mode Settings")]
+        [SerializeField] private CarvingMode currentMode = CarvingMode.Carve;
 
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 200f;
@@ -19,6 +23,9 @@ namespace CarvingModule
         private Transform brushVisual;
         private Mesh mesh;
         private Vector3[] vertices;
+        private float[] perStrokeDeformation;
+        private Vector3? lastDragWorldPos;
+
         private MeshCollider meshCollider;
 
         private void Start()
@@ -42,6 +49,7 @@ namespace CarvingModule
 
                 mesh.MarkDynamic();
                 vertices = mesh.vertices;
+                perStrokeDeformation = new float[vertices.Length];
             }
 
             if (targetCollider == null)
@@ -58,8 +66,19 @@ namespace CarvingModule
 
         private void Update()
         {
+            HandleInput();
             HandleRotation();
             HandleCarving();
+        }
+
+        private void HandleInput()
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1)) { currentMode = CarvingMode.Carve; useSanding = false; Debug.Log("Mode: Carve"); }
+                if (Input.GetKeyDown(KeyCode.Alpha2)) { currentMode = CarvingMode.Raise; useSanding = false; Debug.Log("Mode: Raise"); }
+                if (Input.GetKeyDown(KeyCode.Alpha3)) { currentMode = CarvingMode.Drag; useSanding = false; Debug.Log("Mode: Drag"); }
+            }
         }
 
         private void HandleRotation()
@@ -80,10 +99,11 @@ namespace CarvingModule
             if (Camera.main == null) return;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            RaycastHit hit = default;
 
-            // Raycast against the mask
-            if (targetCollider != null && targetCollider.Raycast(ray, out hit, 100f))
+            bool hitTarget = targetCollider != null && targetCollider.Raycast(ray, out hit, 100f);
+
+            if (hitTarget)
             {
                 // Visual update
                 if (brushVisual != null)
@@ -93,30 +113,52 @@ namespace CarvingModule
                     brushVisual.localScale = Vector3.one * brushSize;
                     brushVisual.up = hit.normal;
                 }
-
-                // Carving action
-                if (Input.GetMouseButton(0))
-                {
-                    if (useSanding)
-                    {
-                        ApplySanding(hit.point);
-                    }
-                    else
-                    {
-                        ApplyCarving(hit.point, hit.normal);
-                    }
-                }
             }
             else
             {
                 if (brushVisual != null) brushVisual.gameObject.SetActive(false);
             }
+
+            // Reset stroke data on mouse down
+            if (Input.GetMouseButtonDown(0))
+            {
+                System.Array.Clear(perStrokeDeformation, 0, perStrokeDeformation.Length);
+                lastDragWorldPos = hitTarget ? hit.point : (Vector3?)null;
+            }
+
+            // Continuous action
+            if (Input.GetMouseButton(0) && hitTarget)
+            {
+                if (useSanding)
+                {
+                    ApplySanding(hit.point);
+                }
+                else
+                {
+                    switch (currentMode)
+                    {
+                        case CarvingMode.Carve:
+                            ApplyDeformation(hit.point, -hit.normal); // Push inward
+                            break;
+                        case CarvingMode.Raise:
+                            ApplyDeformation(hit.point, hit.normal);  // Pull outward
+                            break;
+                        case CarvingMode.Drag:
+                            HandleDrag(hit.point, hit.normal);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                lastDragWorldPos = null;
+            }
         }
 
-        private void ApplyCarving(Vector3 hitPoint, Vector3 hitNormal)
+        private void ApplyDeformation(Vector3 hitPoint, Vector3 direction)
         {
             Vector3 localHitPoint = maskObject.transform.InverseTransformPoint(hitPoint);
-            Vector3 localNormal = maskObject.transform.InverseTransformDirection(hitNormal);
+            Vector3 localDir = maskObject.transform.InverseTransformDirection(direction.normalized);
 
             bool modified = false;
 
@@ -127,10 +169,31 @@ namespace CarvingModule
                 {
                     // Calculate influence
                     float influence = 1f - (distance / brushSize);
+                    float proposedAmount = brushStrength * influence; // Default simple rate
                     
-                    // Push vertex inward (opposite to normal)
-                    vertices[i] -= localNormal * (brushStrength * influence);
-                    modified = true;
+                    // We want to limit total deformation per stroke to 'brushStrength'.
+                    // However, if we just use 'brushStrength' as the rate per frame, it's too fast.
+                    // Let's assume brushStrength is the MAX depth per stroke, and we apply a fraction of it per frame?
+                    // Or user wants "brushStrength" to be the limit.
+                    // "strength kadar deforme edip bırakmalı"
+                    
+                    // Let's define a speed factor. For now, let's say we move 10% of strength per frame until we hit limit?
+                    float moveSpeed = brushStrength * 5f * Time.deltaTime; 
+
+                    // Check how much we already deformed this vertex this stroke
+                    float currentDeformation = perStrokeDeformation[i];
+                    
+                    if (currentDeformation < brushStrength)
+                    {
+                        // Calculate allowed move
+                        float remaining = brushStrength - currentDeformation;
+                        float move = Mathf.Min(moveSpeed, remaining);
+                        
+                        // Apply move
+                        vertices[i] += localDir * move;
+                        perStrokeDeformation[i] += move;
+                        modified = true;
+                    }
                 }
             }
 
@@ -140,36 +203,53 @@ namespace CarvingModule
             }
         }
 
-        private void ApplySanding(Vector3 hitPoint)
+        private void HandleDrag(Vector3 hitPoint, Vector3 hitNormal)
         {
-            Vector3 localHitPoint = maskObject.transform.InverseTransformPoint(hitPoint);
-            
-            // Calculate average position in existing vertices within brush
-            Vector3 avgPos = Vector3.zero;
-            int count = 0;
-
-            for (int i = 0; i < vertices.Length; i++)
+            // Drag logic: Move vertices based on mouse movement relative to camera/surface
+            // We need a stable plane to project mouse movement
+            if (lastDragWorldPos == null)
             {
-                if (Vector3.Distance(localHitPoint, vertices[i]) <= brushSize)
-                {
-                    avgPos += vertices[i];
-                    count++;
-                }
+                lastDragWorldPos = hitPoint;
+                return;
             }
 
-            if (count > 0)
+            // Current world pos is hit.point, but if we deform, hit.point changes. 
+            // Better to project mouse ray onto a plane defined by initial hit normal.
+            Plane dragPlane = new Plane(Camera.main.transform.forward, hitPoint);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            
+            float enter;
+            if (dragPlane.Raycast(ray, out enter))
             {
-                avgPos /= count;
-                bool modified = false;
+                Vector3 currentWorldPos = ray.GetPoint(enter);
+                Vector3 worldDelta = currentWorldPos - lastDragWorldPos.Value;
+                
+                // If delta is too small, ignore
+                if (worldDelta.sqrMagnitude < 0.00001f) return;
 
+                Vector3 localDelta = maskObject.transform.InverseTransformDirection(worldDelta);
+                Vector3 localHitPoint = maskObject.transform.InverseTransformPoint(lastDragWorldPos.Value); // Use invalid/old hit point or current? 
+                // Using current hit point for falloff feels more natural for a brush that follows surface
+                // But dragging implies "grabbing". 
+                
+                // Let's just apply delta to vertices in range of 'hitPoint'
+                localHitPoint = maskObject.transform.InverseTransformPoint(hitPoint);
+
+                bool modified = false;
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    float distance = Vector3.Distance(localHitPoint, vertices[i]);
-                    if (distance <= brushSize)
+                    float dist = Vector3.Distance(localHitPoint, vertices[i]);
+                    if (dist <= brushSize)
                     {
-                        float influence = 1f - (distance / brushSize);
-                        // Move efficiently towards average
-                        vertices[i] = Vector3.Lerp(vertices[i], avgPos, brushStrength * influence);
+                         // Influence
+                        float influence = 1f - (dist / brushSize);
+                        
+                        // Apply drag
+                        // Limit dragging too? User said "limit" for deformation generally. 
+                        // But drag is usually direct control. I'll limit the RATE if needed, but grab usually 1:1.
+                        // However, we should dampen it by strength maybe?
+                        
+                        vertices[i] += localDelta * influence * 0.5f; // Dampen slightly to avoid exploding mesh
                         modified = true;
                     }
                 }
@@ -177,6 +257,7 @@ namespace CarvingModule
                 if (modified)
                 {
                     UpdateMeshRepresentation();
+                    lastDragWorldPos = currentWorldPos;
                 }
             }
         }
@@ -222,6 +303,47 @@ namespace CarvingModule
                 brushVisual = sphere.transform;
                 brushVisual.SetParent(transform);
                 brushVisual.gameObject.SetActive(false);
+            }
+        }
+
+        private void ApplySanding(Vector3 hitPoint)
+        {
+            Vector3 localHitPoint = maskObject.transform.InverseTransformPoint(hitPoint);
+            
+            // Calculate average position in existing vertices within brush
+            Vector3 avgPos = Vector3.zero;
+            int count = 0;
+
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                if (Vector3.Distance(localHitPoint, vertices[i]) <= brushSize)
+                {
+                    avgPos += vertices[i];
+                    count++;
+                }
+            }
+
+            if (count > 0)
+            {
+                avgPos /= count;
+                bool modified = false;
+
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    float distance = Vector3.Distance(localHitPoint, vertices[i]);
+                    if (distance <= brushSize)
+                    {
+                        float influence = 1f - (distance / brushSize);
+                        // Move efficiently towards average
+                        vertices[i] = Vector3.Lerp(vertices[i], avgPos, brushStrength * influence);
+                        modified = true;
+                    }
+                }
+
+                if (modified)
+                {
+                    UpdateMeshRepresentation();
+                }
             }
         }
     }
