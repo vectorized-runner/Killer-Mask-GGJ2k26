@@ -202,20 +202,33 @@ public class TexturePaintingModule : MonoBehaviour
             return;
         }
         
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        int maskLayer = LayerMask.GetMask("Mask");
+        var ray = _cam.ScreenPointToRay(Input.mousePosition);
+        var maskLayer = LayerMask.GetMask("Mask");
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
         {
+            Debug.LogError("No hit");
+            return;
+        }
+
+        var rend = hit.collider.GetComponent<Renderer>();
+        if (rend == null)
+        {
+            Debug.LogError("Renderer is null");
             return;
         }
         
-        Renderer rend = hit.collider.GetComponent<Renderer>();
-        // Texture coordinates are only available on MeshCollider
-        if (rend == null || hit.collider as MeshCollider == null)
+        if (hit.collider as MeshCollider == null)
+        {
+            Debug.Log("Mesh Collider is null");
             return;
+        }
 
         Texture2D tex = GetTexture(rend);
-        if (tex == null) return;
+        if (tex == null)
+        {
+            Debug.LogError("Texture is null");
+            return;
+        }
 
         Vector2 pixelUV = hit.textureCoord;
         pixelUV.x *= tex.width;
