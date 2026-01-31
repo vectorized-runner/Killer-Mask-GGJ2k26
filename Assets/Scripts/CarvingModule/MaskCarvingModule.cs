@@ -105,7 +105,7 @@ public enum CarvingMode
             {
                 brushVisual.gameObject.SetActive(true);
                 brushVisual.position = hit.point;
-                brushVisual.localScale = Vector3.one * brushSize;
+                brushVisual.localScale = Vector3.one * brushSize * 2f; // Çap olarak ayarlandı
                 brushVisual.up = hit.normal;
             }
             
