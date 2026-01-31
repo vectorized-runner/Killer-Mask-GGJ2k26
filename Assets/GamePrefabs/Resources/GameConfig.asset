@@ -12,4 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5576b2468bb464160b2955bb94f5d699, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Scripts::GameConfig
-  Masks: []
+  Masks:
+  - {fileID: 786999808741628673, guid: b1556d9044f0e184fb27b4ba1c4a0501, type: 3}
+  - {fileID: 8978783902267551250, guid: 2200d09b94de1d54c80b01d7fe5d1ebe, type: 3}
+  - {fileID: 7744552841482706956, guid: 7869f5399ee260446a282e0459eb0841, type: 3}
+  - {fileID: 7219125556423097781, guid: 8caa1c44704dc384dabb16303d991857, type: 3}
+  - {fileID: 5410068427134815051, guid: bbc0b982407522144a99444d889e5dfb, type: 3}
+  - {fileID: 7900473560898172493, guid: e4d54faf2d2965147a047ed6c069fa11, type: 3}
+  - {fileID: 2838436833233734516, guid: 2690419b11087fc4f9c4db8210461ad7, type: 3}
+  - {fileID: 2838436833233734516, guid: 2690419b11087fc4f9c4db8210461ad7, type: 3}
+  - {fileID: 8731207516844881368, guid: 57b784ec03319f547a34842e2a4a9702, type: 3}
+  - {fileID: 3356145391814454318, guid: f06cafa262f257747888c63911da2650, type: 3}
+  - {fileID: 205758080010351660, guid: 92ad5d8f02e6f934ba0e9d12003c613a, type: 3}
+  - {fileID: 4339360529348034807, guid: 5d5fa35c5ab845240ab742e1dab2e0f9, type: 3}
+  - {fileID: 5535185621357022806, guid: 3a5a8a1634d988646a50675e7199d401, type: 3}
