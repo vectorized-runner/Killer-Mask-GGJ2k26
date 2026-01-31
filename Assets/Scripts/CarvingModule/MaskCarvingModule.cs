@@ -13,7 +13,14 @@ namespace CarvingModule
         [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
 
-        public enum CarvingMode { Carve, Raise, Drag }
+        public enum CarvingMode
+        {
+            Disabled,
+            Carve, 
+            Raise, 
+            Drag
+        }
+        
         [Header("Mode Settings")]
         [SerializeField] private CarvingMode currentMode = CarvingMode.Carve;
 
@@ -66,21 +73,10 @@ namespace CarvingModule
 
         private void Update()
         {
-            HandleInput();
             HandleRotation();
             HandleCarving();
         }
-
-        private void HandleInput()
-        {
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1)) { currentMode = CarvingMode.Carve; useSanding = false; Debug.Log("Mode: Carve"); }
-                if (Input.GetKeyDown(KeyCode.Alpha2)) { currentMode = CarvingMode.Raise; useSanding = false; Debug.Log("Mode: Raise"); }
-                if (Input.GetKeyDown(KeyCode.Alpha3)) { currentMode = CarvingMode.Drag; useSanding = false; Debug.Log("Mode: Drag"); }
-            }
-        }
-
+     
         private void HandleRotation()
         {
             // Rotate with Right Mouse Button
@@ -96,8 +92,6 @@ namespace CarvingModule
 
         private void HandleCarving()
         {
-            if (Camera.main == null) return;
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = default;
 
