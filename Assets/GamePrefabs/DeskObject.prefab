@@ -423,10 +423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scripts::DeskModule.DeskModuleController
   ToolCollidersList:
-  - ToolType: 0
+  - ToolType: 1
     Colliders:
     - {fileID: 2881730830993548798}
-  - ToolType: 1
+  - ToolType: 2
     Colliders:
     - {fileID: 2678881010503421937}
   - ToolType: 2
