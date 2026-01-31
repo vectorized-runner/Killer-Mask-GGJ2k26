@@ -11,8 +11,7 @@ public enum CarvingMode
 
     public class MaskCarvingModule : MonoBehaviour
     {
-        [Header("Target")]
-        [SerializeField] private GameObject maskObject;
+        private GameObject maskObject;
 
         [Header("Brush Settings")]
         [SerializeField] private float brushSize = 0.5f;
@@ -87,11 +86,6 @@ public enum CarvingMode
 
         private void HandleCarving()
         {
-            if (!Input.GetMouseButton(0))
-            {
-                return;
-            }
-
             var targetCollider = maskObject.GetComponentInChildren<Collider>();
             if (targetCollider == null)
             {
@@ -105,31 +99,30 @@ public enum CarvingMode
                 Debug.LogWarning("Raycast didn't hit Collider");
                 return;
             }
+
+            // Visual update
+            if (brushVisual != null)
+            {
+                brushVisual.gameObject.SetActive(true);
+                brushVisual.position = hit.point;
+                brushVisual.localScale = Vector3.one * brushSize;
+                brushVisual.up = hit.normal;
+            }
             
+            if (!Input.GetMouseButton(0))
+            {
+                return;
+            }
+        
             var maskLayer = LayerMask.GetMask("Mask");
             var hitTarget = ((1 << targetCollider.gameObject.layer) & maskLayer) != 0;
             if (!hitTarget)
             {
                 Debug.LogError("Didn't hit any target");
+                brushVisual.gameObject.SetActive(false);
                 return;
             }
             
-            if (hitTarget)
-            {
-                // Visual update
-                if (brushVisual != null)
-                {
-                    brushVisual.gameObject.SetActive(true);
-                    brushVisual.position = hit.point;
-                    brushVisual.localScale = Vector3.one * brushSize;
-                    brushVisual.up = hit.normal;
-                }
-            }
-            else
-            {
-                if (brushVisual != null) brushVisual.gameObject.SetActive(false);
-            }
-
             // Reset stroke data on mouse down
             if (Input.GetMouseButtonDown(0))
             {

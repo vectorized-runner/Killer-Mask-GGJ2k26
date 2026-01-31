@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scripts::CarvingModule.MaskCarvingModule
   maskObject: {fileID: 0}
-  targetCollider: {fileID: 0}
-  brushSize: 0.1
+  brushSize: 0.05
   brushStrength: 0.01
   useSanding: 0
+  CarvingMode: 0
   rotationSpeed: 2000
