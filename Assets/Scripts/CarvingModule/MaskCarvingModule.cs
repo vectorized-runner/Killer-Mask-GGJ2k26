@@ -9,7 +9,6 @@ namespace CarvingModule
         [SerializeField] private Collider targetCollider;
 
         [Header("Brush Settings")]
-        [SerializeField] private Transform brushVisual;
         [SerializeField] private float brushSize = 0.5f;
         [SerializeField] private float brushStrength = 0.01f;
         [SerializeField] private bool useSanding = false;
@@ -17,12 +16,15 @@ namespace CarvingModule
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 200f;
 
+        private Transform brushVisual;
         private Mesh mesh;
         private Vector3[] vertices;
         private MeshCollider meshCollider;
 
         private void Start()
         {
+            CreateBrushVisual();
+
             if (maskObject == null)
                 maskObject = gameObject;
 
@@ -30,6 +32,14 @@ namespace CarvingModule
             if (mf != null)
             {
                 mesh = mf.mesh;
+
+                if (!mesh.isReadable)
+                {
+                    Debug.LogError($"[MaskCarvingModule] '{maskObject.name}' nesnesindeki '{mesh.name}' mesh'i okunabilir değil! Lütfen modelin Import Settings ayarlarından 'Read/Write Enabled' seçeneğini işaretleyip Apply diyiniz.");
+                    enabled = false;
+                    return;
+                }
+
                 mesh.MarkDynamic();
                 vertices = mesh.vertices;
             }
@@ -188,5 +198,31 @@ namespace CarvingModule
         public void SetSanding(bool active) => useSanding = active;
         public void SetBrushSize(float size) => brushSize = size;
         public void SetBrushStrength(float strength) => brushStrength = strength;
+
+        private void CreateBrushVisual()
+        {
+            if (brushVisual == null)
+            {
+                // Create a primitive sphere
+                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.name = "BrushVisual";
+                
+                // Remove collider so it doesn't interfere with raycasts
+                if(sphere.TryGetComponent<Collider>(out var collider))
+                    Destroy(collider);
+                
+                // Optional: Set transparent material
+                var renderer = sphere.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material = new Material(Shader.Find("Standard"));
+                    renderer.material.color = new Color(1f, 0f, 0f, 0.5f);
+                }
+
+                brushVisual = sphere.transform;
+                brushVisual.SetParent(transform);
+                brushVisual.gameObject.SetActive(false);
+            }
+        }
     }
 }
