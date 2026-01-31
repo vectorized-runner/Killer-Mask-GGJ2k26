@@ -65,6 +65,7 @@ public enum CarvingMode
         {
             if(CarvingMode == CarvingMode.Disabled)
             {
+                brushVisual.gameObject.SetActive(false);
                 return;
             }
             

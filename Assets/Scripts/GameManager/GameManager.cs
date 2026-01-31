@@ -65,10 +65,12 @@ public class GameManager : MonoBehaviour
 			}
 			case DeskTool.Brush:
 			{
+				_carvingModule.CarvingMode = CarvingMode.Disabled;
 				break;
 			}
 			case DeskTool.Decal:
 			{
+				_carvingModule.CarvingMode = CarvingMode.Disabled;
 				break;
 			}
 			case DeskTool.None:
