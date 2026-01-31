@@ -48,7 +48,7 @@ namespace DeskModule
                     if (!_originalPositions.ContainsKey(mesh.transform))
                     {
                         _originalPositions[mesh.transform] = mesh.transform.position;
-                        mesh.transform.position += Vector3.up * 9f;
+                        mesh.transform.position += Vector3.up;
                     }
                 }
             }
@@ -57,7 +57,7 @@ namespace DeskModule
                 if (!_originalPositions.ContainsKey(MaskObject.transform))
                 {
                     _originalPositions[MaskObject.transform] = MaskObject.transform.position;
-                    MaskObject.transform.position += Vector3.up * 9f;
+                    MaskObject.transform.position += Vector3.up;
                 }
             }
         }
@@ -99,22 +99,26 @@ namespace DeskModule
         {
             _isAnimating = true;
             float duration = 0.5f;
+            float delay = 0.25f;
+            // Tool meshlerini sırayla animasyonla indir/kaldır, aralarda delay
             foreach (var kvp in _toolCollidersDict)
             {
                 foreach (var mesh in kvp.Value)
                 {
                     Vector3 from = show ? mesh.transform.position : _originalPositions[mesh.transform];
-                    Vector3 to = show ? _originalPositions[mesh.transform] : _originalPositions[mesh.transform] + Vector3.up * 9f;
+                    Vector3 to = show ? _originalPositions[mesh.transform] : _originalPositions[mesh.transform] + Vector3.up;
                     StartCoroutine(MoveMesh(mesh.transform, from, to, duration));
+                    yield return new WaitForSeconds(delay);
                 }
             }
+            // Mask objesini en son sırayla indir/kaldır, arada delay
             if (MaskObject != null)
             {
                 Vector3 from = show ? MaskObject.transform.position : _originalPositions[MaskObject.transform];
-                Vector3 to = show ? _originalPositions[MaskObject.transform] : _originalPositions[MaskObject.transform] + Vector3.up * 9f;
+                Vector3 to = show ? _originalPositions[MaskObject.transform] : _originalPositions[MaskObject.transform] + Vector3.up; 
                 StartCoroutine(MoveMesh(MaskObject.transform, from, to, duration));
+                yield return new WaitForSeconds(delay);
             }
-            yield return new WaitForSeconds(duration);
             _isAnimating = false;
         }
 
