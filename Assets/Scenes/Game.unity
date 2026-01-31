@@ -1363,7 +1363,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 2.23
   m_Range: 3.2
   m_SpotAngle: 64.25487
@@ -1521,7 +1521,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 2.23
   m_Range: 3.2
   m_SpotAngle: 64.25487
@@ -1648,7 +1648,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 2.23
   m_Range: 3.2
   m_SpotAngle: 64.25487
@@ -2107,7 +2107,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 0.9234638, g: 0.9264706, b: 0.8719723, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 0.58
   m_Range: 9.912017
   m_SpotAngle: 30
@@ -2254,7 +2254,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 0.9234638, g: 0.9264706, b: 0.8719723, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 0.87
   m_Range: 9.912017
   m_SpotAngle: 30
@@ -3118,7 +3118,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.98213863, b: 0.7028302, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 64.25487
@@ -3362,7 +3362,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 0.9234638, g: 0.9264706, b: 0.8719723, a: 1}
+  m_Color: {r: 0.8417141, g: 0.90898323, b: 0.9150943, a: 1}
   m_Intensity: 0.7
   m_Range: 9.912017
   m_SpotAngle: 30
@@ -4407,6 +4407,10 @@ PrefabInstance:
     - target: {fileID: 1043531884595498375, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141674656484519020, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
       propertyPath: m_LocalPosition.x
