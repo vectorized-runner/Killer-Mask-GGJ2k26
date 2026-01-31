@@ -112,7 +112,7 @@ namespace DeskModule
                     SetOutline(_hoveredCollider, false, Color.clear);
                 _hoveredCollider = hovered;
                 if (_hoveredCollider != null && _hoveredCollider != _selectedCollider)
-                    SetOutline(_hoveredCollider, true, Color.blue);
+                    SetOutline(_hoveredCollider, true, Color.cyan);
             }
             // Mouse click kontrolü
             if (Input.GetMouseButtonDown(0) && _hoveredCollider != null)
@@ -122,7 +122,7 @@ namespace DeskModule
                     if (kvp.Value.Contains(_hoveredCollider))
                     {
                         _selectedCollider = _hoveredCollider;
-                        SetOutline(_selectedCollider, true, Color.yellow);
+                        SetOutline(_selectedCollider, true, Color.red);
                         OnToolSelected?.Invoke(kvp.Key);
                         break;
                     }
@@ -192,7 +192,7 @@ namespace DeskModule
         {
             if (_outlineMaterials.TryGetValue(mesh, out var mat))
             {
-                mat.SetFloat("_OutlineEnabled", enabled ? 1f : 0f);
+                mat.SetFloat("_OutlineEnabled", enabled ? 0.1f : 0f);
                 if (enabled && color != Color.clear)
                     mat.SetColor("_OutlineColor", color);
             }
