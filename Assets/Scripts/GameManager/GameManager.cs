@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 		{
 			case DeskTool.Knife:
 			{
-				_carvingModule.SetMask(_maskManager.CurrentMask);
+				// _carvingModule.SetMask(_maskManager.CurrentMask);
 				break;
 			}
 			case DeskTool.Brush:
@@ -155,6 +155,15 @@ public class GameManager : MonoBehaviour
 		deskModule.EnableDeskModule();
 
 		yield return new WaitUntil(() => State == GameState.MaskOn);
+		
+		// TODO: Make animation to put the mask on
+		Debug.LogError("Mask On State");
+		yield return new WaitForSeconds(1.0f);
+
+		State = GameState.KillerOutgoing;
+		_killer.StartOutGoingMovementLocomotion();
+
+		yield return new WaitUntil(() => !_killer.OutgoingMovementSequence.active);
 
 		Debug.LogError("Done");
 
