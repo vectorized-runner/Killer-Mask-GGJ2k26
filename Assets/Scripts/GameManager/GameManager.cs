@@ -59,6 +59,14 @@ namespace GameManager
 		private IEnumerator GameLoop()
 		{
 			_freelookCam.enabled = true;
+
+			yield return new WaitUntil(() => State == GameState.Incoming);
+			
+			_killer.StartInComingMovementLocomotion();
+
+			yield return new WaitUntil(() => _killer.IncomingMovementSequence.IsComplete());
+			
+			Debug.LogError("Done");
 			
 			yield return null;
 		}
