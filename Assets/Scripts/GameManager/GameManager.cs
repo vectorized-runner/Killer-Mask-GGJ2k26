@@ -1,3 +1,4 @@
+using System;
 using CameraModule;
 using System.Collections;
 using CarvingModule;
@@ -20,11 +21,6 @@ namespace GameManager
 		End,
 	}
 	
-	public enum MaskTool
-	{
-		
-	}
-	
 	public class GameManager : MonoBehaviour
 	{
 		public GameState State;
@@ -35,6 +31,7 @@ namespace GameManager
 		private KillerLocomotionController _killer;
 		private MaskCarvingModule _carvingModule;
 		private CameraManager _cameraManager;
+		private DeskTool _currentDeskTool;
 		
 		private void Start()
 		{
@@ -113,8 +110,6 @@ namespace GameManager
 			deskModule.EnableDeskModule();
 			
 			yield return new WaitUntil(() => State == GameState.MaskOn);
-			
-			
 			
 			Debug.LogError("Done");
 			

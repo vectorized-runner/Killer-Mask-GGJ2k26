@@ -1,5 +1,13 @@
 using UnityEngine;
 
+public enum CarvingMode
+{
+    Disabled,
+    Carve, 
+    Raise, 
+    Drag
+}
+
 namespace CarvingModule
 {
     public class MaskCarvingModule : MonoBehaviour
@@ -13,14 +21,6 @@ namespace CarvingModule
         [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
 
-        public enum CarvingMode
-        {
-            Disabled,
-            Carve, 
-            Raise, 
-            Drag
-        }
-        
         [Header("Mode Settings")]
         [SerializeField] private CarvingMode currentMode = CarvingMode.Carve;
 
@@ -35,6 +35,11 @@ namespace CarvingModule
 
         private MeshCollider meshCollider;
 
+        public void SetCarvingMode(CarvingMode mode)
+        {
+            currentMode = mode;
+        }
+        
         public void SetMask(GameObject mask)
         {
             CreateBrushVisual();
