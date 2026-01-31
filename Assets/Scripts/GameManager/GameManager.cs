@@ -57,6 +57,11 @@ namespace GameManager
 				{
 					State = GameState.KillerIncoming;
 				}
+
+				if (State == GameState.MaskCarving)
+				{
+					State = GameState.MaskOn;
+				}
 			}
 			
 			if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -102,6 +107,9 @@ namespace GameManager
 			State = GameState.MaskCarving;
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
+
+			yield return new WaitUntil(() => State == GameState.MaskOn);
+			
 			
 			
 			Debug.LogError("Done");
