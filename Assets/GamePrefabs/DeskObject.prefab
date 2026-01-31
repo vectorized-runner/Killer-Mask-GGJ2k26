@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7884071286122032506}
   - component: {fileID: 3474295788206551758}
   - component: {fileID: 4552322367183892848}
-  - component: {fileID: 6259225855483415895}
+  - component: {fileID: 2678881010503421937}
   m_Layer: 0
   m_Name: PaintBrush
   m_TagString: Untagged
@@ -91,8 +91,8 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6259225855483415895
-BoxCollider:
+--- !u!64 &2678881010503421937
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -109,9 +109,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1352762466290160788
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +124,7 @@ GameObject:
   - component: {fileID: 8710982755308324395}
   - component: {fileID: 8871646051238674583}
   - component: {fileID: 330736346315495891}
-  - component: {fileID: 7835305136593120570}
+  - component: {fileID: 2881730830993548798}
   m_Layer: 0
   m_Name: Carving
   m_TagString: Untagged
@@ -203,8 +204,8 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7835305136593120570
-BoxCollider:
+--- !u!64 &2881730830993548798
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -221,9 +222,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5425423955758365459
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +269,7 @@ GameObject:
   - component: {fileID: 9193906868826867205}
   - component: {fileID: 4264910154417991723}
   - component: {fileID: 2653920244757293015}
-  - component: {fileID: 8177206760185195285}
+  - component: {fileID: 4222773194049735136}
   m_Layer: 0
   m_Name: Decals
   m_TagString: Untagged
@@ -347,8 +349,8 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8177206760185195285
-BoxCollider:
+--- !u!64 &4222773194049735136
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -365,9 +367,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8520950522518995828
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +380,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4589386782001165815}
+  - component: {fileID: 5341159396082473880}
   m_Layer: 0
   m_Name: DeskObject
   m_TagString: Untagged
@@ -403,6 +407,29 @@ Transform:
   - {fileID: 9193906868826867205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5341159396082473880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8520950522518995828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789819343ba84c36b0094c21020a095a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::DeskModule.DeskModuleController
+  ToolCollidersList:
+  - ToolType: 0
+    Colliders:
+    - {fileID: 2881730830993548798}
+  - ToolType: 1
+    Colliders:
+    - {fileID: 2678881010503421937}
+  - ToolType: 2
+    Colliders:
+    - {fileID: 4222773194049735136}
+  MaskObject: {fileID: 5425423955758365459}
 --- !u!1001 &1964253073062898428
 PrefabInstance:
   m_ObjectHideFlags: 0

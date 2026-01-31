@@ -29,12 +29,36 @@ namespace DeskModule
         private bool _isEnabled;
         private bool _isAnimating;
 
+        public GameObject MaskObject;
+
+        private Dictionary<Transform, Vector3> _originalPositions = new Dictionary<Transform, Vector3>();
+
         private void Awake()
         {
             _toolCollidersDict = new Dictionary<DeskTool, List<MeshCollider>>();
             foreach (var item in ToolCollidersList)
             {
                 _toolCollidersDict[item.ToolType] = item.Colliders;
+            }
+            // Orijinal pozisyonları cache'le ve objeleri yukarıya kaldır
+            foreach (var kvp in _toolCollidersDict)
+            {
+                foreach (var mesh in kvp.Value)
+                {
+                    if (!_originalPositions.ContainsKey(mesh.transform))
+                    {
+                        _originalPositions[mesh.transform] = mesh.transform.position;
+                        mesh.transform.position += Vector3.up * 9f;
+                    }
+                }
+            }
+            if (MaskObject != null)
+            {
+                if (!_originalPositions.ContainsKey(MaskObject.transform))
+                {
+                    _originalPositions[MaskObject.transform] = MaskObject.transform.position;
+                    MaskObject.transform.position += Vector3.up * 9f;
+                }
             }
         }
 
@@ -75,34 +99,36 @@ namespace DeskModule
         {
             _isAnimating = true;
             float duration = 0.5f;
-            float startY = show ? 10f : 1f;
-            float endY = show ? 1f : 10f;
             foreach (var kvp in _toolCollidersDict)
             {
                 foreach (var mesh in kvp.Value)
                 {
-                    StartCoroutine(MoveMesh(mesh.transform, startY, endY, duration));
+                    Vector3 from = show ? mesh.transform.position : _originalPositions[mesh.transform];
+                    Vector3 to = show ? _originalPositions[mesh.transform] : _originalPositions[mesh.transform] + Vector3.up * 9f;
+                    StartCoroutine(MoveMesh(mesh.transform, from, to, duration));
                 }
+            }
+            if (MaskObject != null)
+            {
+                Vector3 from = show ? MaskObject.transform.position : _originalPositions[MaskObject.transform];
+                Vector3 to = show ? _originalPositions[MaskObject.transform] : _originalPositions[MaskObject.transform] + Vector3.up * 9f;
+                StartCoroutine(MoveMesh(MaskObject.transform, from, to, duration));
             }
             yield return new WaitForSeconds(duration);
             _isAnimating = false;
         }
 
-        private IEnumerator MoveMesh(Transform mesh, float fromY, float toY, float duration)
+        private IEnumerator MoveMesh(Transform mesh, Vector3 from, Vector3 to, float duration)
         {
-            Vector3 startPos = mesh.position;
-            startPos.y = fromY;
-            Vector3 endPos = mesh.position;
-            endPos.y = toY;
             float elapsed = 0f;
-            mesh.position = startPos;
+            mesh.position = from;
             while (elapsed < duration)
             {
-                mesh.position = Vector3.Lerp(startPos, endPos, elapsed / duration);
+                mesh.position = Vector3.Lerp(from, to, elapsed / duration);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            mesh.position = endPos;
+            mesh.position = to;
         }
     }
 }
