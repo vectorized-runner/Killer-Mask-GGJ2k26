@@ -20,9 +20,12 @@ namespace GameManager
 		End,
 	}
 	
-	public enum MaskTool
+	public enum DeskTool
 	{
-		
+		None,
+		Knife,
+		Brush,
+		Decal,
 	}
 	
 	public class GameManager : MonoBehaviour
@@ -35,6 +38,7 @@ namespace GameManager
 		private KillerLocomotionController _killer;
 		private MaskCarvingModule _carvingModule;
 		private CameraManager _cameraManager;
+		private DeskTool _currentDeskTool;
 		
 		private void Start()
 		{

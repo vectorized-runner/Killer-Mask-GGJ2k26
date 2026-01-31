@@ -7,13 +7,6 @@ namespace DeskModule
 {
     public class DeskModuleController : MonoBehaviour
     {
-        public enum DeskTool
-        {
-            Knife,
-            Brush,
-            Decal,
-        }
-
         // Tool'a karşılık gelen mesh collider listeleri
         [Serializable]
         public class ToolColliders
