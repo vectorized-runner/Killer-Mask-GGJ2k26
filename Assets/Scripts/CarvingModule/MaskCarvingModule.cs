@@ -42,10 +42,9 @@ namespace CarvingModule
         
         public void SetMask(GameObject mask)
         {
+            maskObject = mask;
+            
             CreateBrushVisual();
-
-            if (maskObject == null)
-                maskObject = gameObject;
 
             MeshFilter mf = maskObject.GetComponent<MeshFilter>();
             if (mf != null)
