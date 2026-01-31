@@ -11,9 +11,17 @@ namespace GameManager
 	public enum GameState
 	{
 		WaitingForStartInput,
-		Incoming,
-		MaskSetup,
-		Outgoing,
+		KillerIncoming,
+		TableSetup,
+		MaskCarving,
+		MaskOn,
+		KillerOutgoing,
+		End,
+	}
+
+	public enum MaskTool
+	{
+		
 	}
 	
 	public class GameManager : MonoBehaviour
@@ -45,7 +53,7 @@ namespace GameManager
 			{
 				if (State == GameState.WaitingForStartInput)
 				{
-					State = GameState.Incoming;
+					State = GameState.KillerIncoming;
 				}
 			}
 			
@@ -67,7 +75,7 @@ namespace GameManager
 		{
 			_freelookCam.enabled = true;
 
-			yield return new WaitUntil(() => State == GameState.Incoming);
+			yield return new WaitUntil(() => State == GameState.KillerIncoming);
 			Debug.LogError("State = Incoming");
 
 			var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
@@ -83,10 +91,15 @@ namespace GameManager
 			StartCoroutine(FindFirstObjectByType<AutoDoorScript>().CloseDoor());
 
 			yield return new WaitUntil(() => !_killer.IncomingMovementSequence.active);
+
+			State = GameState.TableSetup;
+			
+			// TODO: Move the camera
 			
 			Debug.LogError("Done");
 			
 			yield return null;
 		}
+
 	}
 }
