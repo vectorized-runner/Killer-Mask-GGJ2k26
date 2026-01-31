@@ -13,7 +13,14 @@ namespace CarvingModule
         [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
 
-        public enum CarvingMode { Carve, Raise, Drag }
+        public enum CarvingMode
+        {
+            Disabled,
+            Carve, 
+            Raise, 
+            Drag
+        }
+        
         [Header("Mode Settings")]
         [SerializeField] private CarvingMode currentMode = CarvingMode.Carve;
 
