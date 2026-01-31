@@ -18,7 +18,7 @@ namespace GameManager
 		KillerOutgoing,
 		End,
 	}
-
+	
 	public enum MaskTool
 	{
 		
@@ -31,7 +31,6 @@ namespace GameManager
 		public float DoorCloseDelay = 0.5f;
 		public float MaskEditDelay = 1.0f;
 		
-		private FreelookCamera _freelookCam;
 		private KillerLocomotionController _killer;
 		private MaskCarvingModule _carvingModule;
 		private CameraManager _cameraManager;
@@ -40,7 +39,6 @@ namespace GameManager
 		{
 			State = GameState.WaitingForStartInput;
 			
-			_freelookCam = FindFirstObjectByType<FreelookCamera>();
 			_killer = FindFirstObjectByType<KillerLocomotionController>();
 			_cameraManager = FindFirstObjectByType<CameraManager>();
 			StartCoroutine(GameLoop());
@@ -58,6 +56,11 @@ namespace GameManager
 				if (State == GameState.WaitingForStartInput)
 				{
 					State = GameState.KillerIncoming;
+				}
+
+				if (State == GameState.MaskCarving)
+				{
+					State = GameState.MaskOn;
 				}
 			}
 			
@@ -104,6 +107,10 @@ namespace GameManager
 			State = GameState.MaskCarving;
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
+
+			yield return new WaitUntil(() => State == GameState.MaskOn);
+			
+			
 			
 			Debug.LogError("Done");
 			
