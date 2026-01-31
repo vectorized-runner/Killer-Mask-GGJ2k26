@@ -110,8 +110,12 @@ namespace KillerLocomotion
             maskSeq.AppendInterval(faceLerpDelay - handLerpDuration); // handLerp'den kalan süre kadar bekle
             maskSeq.Append(maskInstance.transform.DOMove(_faceMaskHoldPoint.position, faceLerpDuration).SetEase(Ease.InOutSine));
             maskSeq.Join(maskInstance.transform.DORotateQuaternion(_faceMaskHoldPoint.rotation, faceLerpDuration).SetEase(Ease.InOutSine));
-            // 5. Maskeyi parent olarak yüze al, animasyon bitince maskeyi yok et
-            maskSeq.AppendCallback(() => maskInstance.transform.SetParent(_faceMaskHoldPoint, worldPositionStays: true));
+            // 5. Maskeyi parent olarak yüze al, localPosition ve localRotation'u sıfırla, animasyon bitince maskeyi yok et
+            maskSeq.AppendCallback(() => {
+                maskInstance.transform.SetParent(_faceMaskHoldPoint, worldPositionStays: true);
+                maskInstance.transform.localPosition = Vector3.zero;
+                maskInstance.transform.localRotation = Quaternion.identity;
+            });
             maskSeq.AppendInterval(animDuration - faceLerpDelay - faceLerpDuration);
             maskSeq.AppendCallback(() => Destroy(maskInstance));
             maskSeq.Play();
