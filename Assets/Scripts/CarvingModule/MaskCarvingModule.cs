@@ -103,8 +103,6 @@ namespace CarvingModule
 
         private void HandleCarving()
         {
-            if (Camera.main == null) return;
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = default;
 
