@@ -12,9 +12,12 @@ namespace Scene
         public float MinWait = 8f; // Flicker başlamadan önce minimum bekleme süresi
         public float MaxWait = 12f; // Flicker başlamadan önce maksimum bekleme süresi
         public float FlickerDuration = 1f; // Flicker'ın toplam süresi
+        public bool AlternateMinMax = false; // Random yerine sırayla min/max yapar
 
         private Light _light;
         private float _flickerEndTime;
+
+        private bool _lastWasMin = false;
 
         void Awake()
         {
@@ -44,7 +47,17 @@ namespace Scene
                 _flickerEndTime = Time.time + FlickerDuration;
                 while (Time.time < _flickerEndTime)
                 {
-                    float newIntensity = Random.Range(MinIntensity, MaxIntensity);
+                    float newIntensity;
+                    if (AlternateMinMax)
+                    {
+                        // Sırayla min ve max intensity uygula
+                        newIntensity = (_lastWasMin ? MaxIntensity : MinIntensity);
+                        _lastWasMin = !_lastWasMin;
+                    }
+                    else
+                    {
+                        newIntensity = Random.Range(MinIntensity, MaxIntensity);
+                    }
                     _light.intensity = newIntensity;
                     float nextFlicker = FlickerSpeed + Random.Range(-FlickerRandomness, FlickerRandomness);
                     yield return new WaitForSeconds(Mathf.Max(0.01f, nextFlicker));

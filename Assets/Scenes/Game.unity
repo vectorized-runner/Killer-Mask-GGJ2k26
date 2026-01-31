@@ -1360,6 +1360,7 @@ GameObject:
   - component: {fileID: 518994539}
   - component: {fileID: 518994541}
   - component: {fileID: 518994540}
+  - component: {fileID: 518994542}
   m_Layer: 0
   m_Name: Spot Light (1)
   m_TagString: Untagged
@@ -1476,6 +1477,26 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &518994542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518994538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c59c465bb434d8639a54951f2d2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::Scene.FlickeringLight
+  MinIntensity: 0.1
+  MaxIntensity: 0.58
+  FlickerSpeed: 0.1
+  FlickerRandomness: 0.05
+  MinWait: 8
+  MaxWait: 12
+  FlickerDuration: 1
+  AlternateMinMax: 0
 --- !u!1 &539821609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,6 +1632,7 @@ GameObject:
   - component: {fileID: 595373545}
   - component: {fileID: 595373547}
   - component: {fileID: 595373546}
+  - component: {fileID: 595373548}
   m_Layer: 0
   m_Name: Spot Light (3)
   m_TagString: Untagged
@@ -1727,6 +1749,26 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &595373548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595373544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c59c465bb434d8639a54951f2d2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::Scene.FlickeringLight
+  MinIntensity: 0.1
+  MaxIntensity: 0.58
+  FlickerSpeed: 0.1
+  FlickerRandomness: 0.05
+  MinWait: 8
+  MaxWait: 12
+  FlickerDuration: 1
+  AlternateMinMax: 0
 --- !u!1 &613388310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,6 +1780,7 @@ GameObject:
   - component: {fileID: 613388311}
   - component: {fileID: 613388313}
   - component: {fileID: 613388312}
+  - component: {fileID: 613388314}
   m_Layer: 0
   m_Name: Spot Light (2)
   m_TagString: Untagged
@@ -1854,6 +1897,26 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &613388314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613388310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c59c465bb434d8639a54951f2d2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::Scene.FlickeringLight
+  MinIntensity: 0.1
+  MaxIntensity: 0.58
+  FlickerSpeed: 0.1
+  FlickerRandomness: 0.05
+  MinWait: 8
+  MaxWait: 12
+  FlickerDuration: 1
+  AlternateMinMax: 0
 --- !u!1001 &644484467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2012,6 +2075,7 @@ GameObject:
   - component: {fileID: 746628548}
   - component: {fileID: 746628550}
   - component: {fileID: 746628549}
+  - component: {fileID: 746628551}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -2128,6 +2192,26 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &746628551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746628547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c59c465bb434d8639a54951f2d2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::Scene.FlickeringLight
+  MinIntensity: 0.03
+  MaxIntensity: 0.12
+  FlickerSpeed: 0.1
+  FlickerRandomness: 0
+  MinWait: 4
+  MaxWait: 4
+  FlickerDuration: 1.5
+  AlternateMinMax: 1
 --- !u!1001 &776656686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2459,6 +2543,7 @@ MonoBehaviour:
   MinWait: 8
   MaxWait: 12
   FlickerDuration: 1
+  AlternateMinMax: 0
 --- !u!1 &968573750
 GameObject:
   m_ObjectHideFlags: 0
@@ -2637,6 +2722,7 @@ MonoBehaviour:
   MinWait: 3
   MaxWait: 8
   FlickerDuration: 0.75
+  AlternateMinMax: 0
 --- !u!1001 &984033077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3370,6 +3456,7 @@ GameObject:
   - component: {fileID: 1318979057}
   - component: {fileID: 1318979059}
   - component: {fileID: 1318979058}
+  - component: {fileID: 1318979060}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -3487,6 +3574,26 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1318979060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318979056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0c59c465bb434d8639a54951f2d2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::Scene.FlickeringLight
+  MinIntensity: 0.1
+  MaxIntensity: 0.4
+  FlickerSpeed: 0.1
+  FlickerRandomness: 0
+  MinWait: 4
+  MaxWait: 4
+  FlickerDuration: 1.5
+  AlternateMinMax: 1
 --- !u!1001 &1332847974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3750,6 +3857,7 @@ MonoBehaviour:
   MinWait: 4
   MaxWait: 8
   FlickerDuration: 0.3
+  AlternateMinMax: 0
 --- !u!1001 &1484379214
 PrefabInstance:
   m_ObjectHideFlags: 0
