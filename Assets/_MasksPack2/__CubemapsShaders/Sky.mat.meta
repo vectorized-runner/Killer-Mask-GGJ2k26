@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5f55c7e6b81f85e44ada1965100047ed
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 157577
+  packageName: Masks pack 2
+  packageVersion: 1.0
+  assetPath: Assets/_MasksPack2/__CubemapsShaders/Sky.mat
+  uploadId: 339754
