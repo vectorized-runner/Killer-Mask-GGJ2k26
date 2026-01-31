@@ -26,7 +26,6 @@ namespace DeskModule
         private Dictionary<DeskTool, List<MeshCollider>> _toolCollidersDict;
 
         // Tool seçildiğinde tetiklenen event
-        public event Action<DeskTool> OnToolSelected;
         private bool _isEnabled;
         private bool _isAnimating;
 
@@ -127,7 +126,7 @@ namespace DeskModule
                     {
                         _selectedCollider = _hoveredCollider;
                         SetOutline(_selectedCollider, true, Color.red);
-                        OnToolSelected?.Invoke(kvp.Key);
+                        GameManager.Instance.SelectDeskTool(kvp.Key);
                         break;
                     }
                 }
