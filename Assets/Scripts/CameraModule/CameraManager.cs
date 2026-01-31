@@ -33,6 +33,7 @@ namespace CameraModule
         [SerializeField]
         private FreelookCamera _freelookCamera; // Inspector'dan atanacak
 
+        private CameraPositionType _currentCameraType;
         private Transform _targetTransform;
         private bool _isMoving = false;
 
@@ -48,10 +49,11 @@ namespace CameraModule
 
         void Update()
         {
-            if (_isMoving && _targetTransform != null)
+            if (_isMoving)
             {
-                if (_freelookCamera != null && _freelookCamera.enabled)
+                if (_freelookCamera.enabled)
                     _freelookCamera.enabled = false;
+                
                 _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _targetTransform.position, Mathf.Clamp01(Time.deltaTime * _moveSpeed));
                 _cameraTransform.rotation = Quaternion.Slerp(_cameraTransform.rotation, _targetTransform.rotation, Mathf.Clamp01(Time.deltaTime * (_rotateSpeed * 3f)));
 
@@ -61,7 +63,8 @@ namespace CameraModule
                     _cameraTransform.position = _targetTransform.position;
                     _cameraTransform.rotation = _targetTransform.rotation;
                     _isMoving = false;
-                    if (_freelookCamera != null && !_freelookCamera.enabled)
+                    
+                    if (!_freelookCamera.enabled && _currentCameraType != CameraPositionType.MaskEditing)
                         _freelookCamera.enabled = true;
                 }
             }
@@ -69,10 +72,14 @@ namespace CameraModule
 
         public void MoveToPosition(CameraPositionType type)
         {
+            if(_currentCameraType == type)
+                return;
+            
             foreach (var camPos in _cameraPositions)
             {
-                if (camPos.Type == type && camPos.TargetTransform != null)
+                if (camPos.Type == type)
                 {
+                    _currentCameraType = camPos.Type;
                     _targetTransform = camPos.TargetTransform;
                     _isMoving = true;
                     return;
