@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 	private CameraManager _cameraManager;
 	private MaskManager _maskManager;
 	private DeskTool _currentDeskTool;
+	private TexturePaintingModule _texPaintModule;
 
 	public static GameManager Instance { get; private set; }
 
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
 		Instance = this;
 		_maskManager = FindFirstObjectByType<MaskManager>();
 		_carvingModule = FindFirstObjectByType<MaskCarvingModule>();
+		_texPaintModule = FindFirstObjectByType<TexturePaintingModule>();
 	}
 
 	public void SelectDeskTool(DeskTool tool)
@@ -61,16 +63,22 @@ public class GameManager : MonoBehaviour
 			{
 				_carvingModule.SetMask(_maskManager.InitialMask);
 				_carvingModule.CarvingMode = CarvingMode.Carve;
+
+				_texPaintModule.IsEnabled = false;
 				break;
 			}
 			case DeskTool.Brush:
 			{
 				_carvingModule.CarvingMode = CarvingMode.Disabled;
+				
+				_texPaintModule.IsEnabled = true;
 				break;
 			}
 			case DeskTool.Decal:
 			{
 				_carvingModule.CarvingMode = CarvingMode.Disabled;
+
+				_texPaintModule.IsEnabled = false;
 				break;
 			}
 			case DeskTool.None:
