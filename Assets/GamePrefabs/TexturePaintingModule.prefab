@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scripts::TexturePaintingModule
   brushColor: {r: 1, g: 0, b: 0, a: 1}
-  brushSize: 50
+  brushSize: 25
   brushFlow: 0.5
   brushHardness: 0.5
   showPreview: 1
