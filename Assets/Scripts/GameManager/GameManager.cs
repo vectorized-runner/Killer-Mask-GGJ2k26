@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 	private KillerLocomotionController _killer;
 	private MaskCarvingModule _carvingModule;
 	private CameraManager _cameraManager;
+	private MaskManager _maskManager;
 	private DeskTool _currentDeskTool;
 
 	public static GameManager Instance { get; private set; }
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
+		_maskManager = FindFirstObjectByType<MaskManager>();
 		_carvingModule = FindFirstObjectByType<CarvingModule>();
 	}
 
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
-		Debug.LogError(tool);
+		Debug.LogError($"Set Tool to {tool}");
 		
 		switch (tool)
 		{
