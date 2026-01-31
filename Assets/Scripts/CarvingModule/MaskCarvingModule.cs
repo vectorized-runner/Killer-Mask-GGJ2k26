@@ -8,8 +8,6 @@ public enum CarvingMode
     Drag
 }
 
-namespace CarvingModule
-{
     public class MaskCarvingModule : MonoBehaviour
     {
         [Header("Target")]
@@ -350,4 +348,3 @@ namespace CarvingModule
             }
         }
     }
-}
