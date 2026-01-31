@@ -115,7 +115,7 @@ namespace DeskModule
                     SetOutline(_hoveredCollider, false, Color.clear);
                 _hoveredCollider = hovered;
                 if (_hoveredCollider != null && _hoveredCollider != _selectedCollider)
-                    SetOutline(_hoveredCollider, true, Color.cyan);
+                    SetOutline(_hoveredCollider, true, Color.white);
             }
             // Mouse click kontrolü
             if (Input.GetMouseButtonDown(0) && _hoveredCollider != null)
