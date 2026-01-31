@@ -40,11 +40,7 @@ public class TexturePaintingModule : MonoBehaviour
         
         HandleInput();
         UpdatePreview();
-
-        if (Input.GetMouseButton(0))
-        {
-            Paint();
-        }
+        Paint();
     }
 
     private void HandleInput()
@@ -200,33 +196,51 @@ public class TexturePaintingModule : MonoBehaviour
 
     private void Paint()
     {
-        if (_cam == null) _cam = Camera.main;
-        if (_cam == null) return;
-
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        int maskLayer = LayerMask.GetMask("Mask");
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
+        if (!Input.GetMouseButton(0))
         {
-            Renderer rend = hit.collider.GetComponent<Renderer>();
-            // Texture coordinates are only available on MeshCollider
-            if (rend == null || hit.collider as MeshCollider == null)
-                return;
+            Debug.LogWarning("No input");
+            return;
+        }
+        
+        var ray = _cam.ScreenPointToRay(Input.mousePosition);
+        var maskLayer = LayerMask.GetMask("Mask");
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
+        {
+            Debug.LogError("No hit");
+            return;
+        }
 
-            Texture2D tex = GetTexture(rend);
-            if (tex == null) return;
+        var rend = hit.collider.GetComponent<Renderer>();
+        if (rend == null)
+        {
+            Debug.LogError("Renderer is null");
+            return;
+        }
+        
+        if (hit.collider as MeshCollider == null)
+        {
+            Debug.Log("Mesh Collider is null");
+            return;
+        }
 
-            Vector2 pixelUV = hit.textureCoord;
-            pixelUV.x *= tex.width;
-            pixelUV.y *= tex.height;
+        Texture2D tex = GetTexture(rend);
+        if (tex == null)
+        {
+            Debug.LogError("Texture is null");
+            return;
+        }
 
-            if (useSticker && stickerTexture != null)
-            {
-                ApplySticker(tex, pixelUV);
-            }
-            else
-            {
-                ApplyBrush(tex, pixelUV);
-            }
+        Vector2 pixelUV = hit.textureCoord;
+        pixelUV.x *= tex.width;
+        pixelUV.y *= tex.height;
+
+        if (useSticker && stickerTexture != null)
+        {
+            ApplySticker(tex, pixelUV);
+        }
+        else
+        {
+            ApplyBrush(tex, pixelUV);
         }
     }
 
