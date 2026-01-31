@@ -97,7 +97,7 @@ namespace KillerLocomotion
             // 2. Hand hold point'e DOTween ile pozisyon ve rotasyon animasyonu (gerekirse parent'ı world'de bırak)
             float handLerpDuration = 0.3f;
             float animDuration = _maskEquipAnimation.length;
-            float faceLerpDelay = animDuration * 0.8f;
+            float faceLerpDelay = animDuration * 0.5f;
             float faceLerpDuration = 0.3f;
 
             Sequence maskSeq = DOTween.Sequence();
