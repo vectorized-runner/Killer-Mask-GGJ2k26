@@ -33,6 +33,15 @@ namespace GameManager
 			{
 				SceneManager.LoadScene("Game");
 			}
+
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				if (State == GameState.WaitingForStartInput)
+				{
+					State = GameState.Incoming;
+				}
+			}
+			
 			if (Input.GetKeyDown(KeyCode.Alpha1))
 			{
 				Time.timeScale = 1.0f;
