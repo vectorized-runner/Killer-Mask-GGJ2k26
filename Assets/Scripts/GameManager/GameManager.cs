@@ -1,7 +1,6 @@
 using System;
 using CameraModule;
 using System.Collections;
-using CarvingModule;
 using DeskModule;
 using KillerLocomotion;
 using Scene;
@@ -38,7 +37,7 @@ public class GameManager : MonoBehaviour
 	{
 		Instance = this;
 		_maskManager = FindFirstObjectByType<MaskManager>();
-		_carvingModule = FindFirstObjectByType<CarvingModule>();
+		_carvingModule = FindFirstObjectByType<MaskCarvingModule>();
 	}
 
 	public void SelectDeskTool(DeskTool tool)
