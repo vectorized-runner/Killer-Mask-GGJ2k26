@@ -73,6 +73,11 @@ namespace CarvingModule
 
         private void Update()
         {
+            if(currentMode == CarvingMode.Disabled)
+            {
+                return;
+            }
+            
             HandleRotation();
             HandleCarving();
         }
