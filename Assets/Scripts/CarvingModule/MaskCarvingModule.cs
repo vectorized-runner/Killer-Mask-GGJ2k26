@@ -11,6 +11,7 @@ public enum CarvingMode
 
     public class MaskCarvingModule : MonoBehaviour
     {
+        public Material Unlit;
         private GameObject maskObject;
 
         [Header("Brush Settings")]
@@ -295,8 +296,7 @@ public enum CarvingMode
                 var renderer = sphere.GetComponent<Renderer>();
                 if (renderer != null)
                 {
-                    renderer.material = new Material(Shader.Find("Standard"));
-                    renderer.material.color = new Color(1f, 0f, 0f, 0.5f);
+                    renderer.material = Unlit;
                 }
 
                 brushVisual = sphere.transform;
