@@ -429,7 +429,7 @@ MonoBehaviour:
   - ToolType: 2
     Colliders:
     - {fileID: 2678881010503421937}
-  - ToolType: 2
+  - ToolType: 3
     Colliders:
     - {fileID: 4222773194049735136}
   MaskObject: {fileID: 5425423955758365459}
