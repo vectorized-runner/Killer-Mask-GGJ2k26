@@ -1,15 +1,12 @@
 using UnityEngine;
 
-namespace MaskManager
+public class MaskManager : MonoBehaviour
 {
-	public class MaskManager : MonoBehaviour
-	{
-		private GameObject _initialMask;
+	public GameObject CurrentMask;
 
-		private void Start()
-		{
-			_initialMask = FindFirstObjectByType<InitialMask>().gameObject;
-			Debug.Assert(_initialMask != null);
-		}
+	private void Start()
+	{
+		CurrentMask = FindFirstObjectByType<InitialMask>().gameObject;
+		Debug.Assert(CurrentMask != null);
 	}
 }
