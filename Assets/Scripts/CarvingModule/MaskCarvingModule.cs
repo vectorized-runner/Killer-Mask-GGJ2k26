@@ -30,9 +30,9 @@ public enum CarvingMode
         private float[] perStrokeDeformation;
         private Vector3? lastDragWorldPos;
 
-        private void Awake()
+        private void Start()
         {
-            Debug.LogError("MaskCarvingMode awake");
+            CreateBrushVisual();
         }
 
         public void SetMask(GameObject mask)
@@ -41,7 +41,6 @@ public enum CarvingMode
             
             maskObject = mask;
             
-            CreateBrushVisual();
 
             MeshFilter mf = maskObject.GetComponent<MeshFilter>();
             if (mf != null)
