@@ -13,15 +13,13 @@ public enum CarvingMode
     {
         [Header("Target")]
         [SerializeField] private GameObject maskObject;
-        [SerializeField] private Collider targetCollider;
 
         [Header("Brush Settings")]
         [SerializeField] private float brushSize = 0.5f;
         [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
 
-        [NonSerialized]
-        private CarvingMode currentMode;
+        public CarvingMode CarvingMode;
 
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 200f;
@@ -32,18 +30,11 @@ public enum CarvingMode
         private float[] perStrokeDeformation;
         private Vector3? lastDragWorldPos;
 
-        private MeshCollider meshCollider;
-
         private void Awake()
         {
             Debug.LogError("MaskCarvingMode awake");
         }
 
-        public void SetCarvingMode(CarvingMode mode)
-        {
-            currentMode = mode;
-        }
-        
         public void SetMask(GameObject mask)
         {
             Debug.Assert(mask != null);
@@ -68,22 +59,11 @@ public enum CarvingMode
                 vertices = mesh.vertices;
                 perStrokeDeformation = new float[vertices.Length];
             }
-
-            if (targetCollider == null)
-            {
-                targetCollider = maskObject.GetComponent<Collider>();
-            }
-
-            // Ensure we have a physics way to raycast against the mesh
-            if (targetCollider is MeshCollider mc)
-            {
-                meshCollider = mc;
-            }
         }
 
         private void Update()
         {
-            if(currentMode == CarvingMode.Disabled)
+            if(CarvingMode == CarvingMode.Disabled)
             {
                 return;
             }
@@ -107,11 +87,33 @@ public enum CarvingMode
 
         private void HandleCarving()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit = default;
-            int maskLayer = LayerMask.GetMask("Mask");
-            bool hitTarget = targetCollider != null && targetCollider.Raycast(ray, out hit, 100f) && ((1 << targetCollider.gameObject.layer) & maskLayer) != 0;
+            if (!Input.GetMouseButton(0))
+            {
+                return;
+            }
 
+            var targetCollider = maskObject.GetComponentInChildren<Collider>();
+            if (targetCollider == null)
+            {
+                Debug.LogError("Collider is null.");
+                return;
+            }
+            
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (!targetCollider.Raycast(ray, out var hit, 100f))
+            {
+                Debug.LogWarning("Raycast didn't hit Collider");
+                return;
+            }
+            
+            var maskLayer = LayerMask.GetMask("Mask");
+            var hitTarget = ((1 << targetCollider.gameObject.layer) & maskLayer) != 0;
+            if (!hitTarget)
+            {
+                Debug.LogError("Didn't hit any target");
+                return;
+            }
+            
             if (hitTarget)
             {
                 // Visual update
@@ -144,7 +146,7 @@ public enum CarvingMode
                 }
                 else
                 {
-                    switch (currentMode)
+                    switch (CarvingMode)
                     {
                         case CarvingMode.Carve:
                             ApplyDeformation(hit.point, -hit.normal); // Push inward
@@ -276,12 +278,7 @@ public enum CarvingMode
             mesh.vertices = vertices;
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
-
-            // Force update collider if it's a mesh collider so subsequent raycasts are accurate
-            if (meshCollider != null)
-            {
-                meshCollider.sharedMesh = mesh;
-            }
+            maskObject.GetComponentInChildren<MeshCollider>().sharedMesh = mesh;
         }
 
         // Public API for UI
