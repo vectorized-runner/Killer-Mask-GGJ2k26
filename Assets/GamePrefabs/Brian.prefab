@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4121434718261072452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5498505829143013896}
+  m_Layer: 0
+  m_Name: HandHold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5498505829143013896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4121434718261072452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.20275621, y: 0.22133264, z: -0.20157325, w: 0.9323465}
+  m_LocalPosition: {x: -0.017, y: 0.144, z: 0.078}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1277999847460246640}
+  m_LocalEulerAnglesHint: {x: 27.86, y: 21.985, z: -18.883}
+--- !u!1 &9140897371336829911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3624305486510000456}
+  m_Layer: 0
+  m_Name: FaceHold
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3624305486510000456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140897371336829911}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0, y: 0.054, z: 0.1646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6462084549110007398}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &5200119847042997692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,7 +124,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -2767788096431076916, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5498505829143013896}
+    - targetCorrespondingSourceObject: {fileID: -7960280721370981414, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3624305486510000456}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
       insertIndex: -1
@@ -77,6 +145,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7844002296152149154}
   m_SourcePrefab: {fileID: 100100000, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
+--- !u!4 &1277999847460246640 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2767788096431076916, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
+  m_PrefabInstance: {fileID: 5200119847042997692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4966310004597055725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
@@ -120,6 +193,9 @@ MonoBehaviour:
   - {fileID: -203655887218126122, guid: d98331b167b754a379565befd5a3e913, type: 3}
   _animator: {fileID: 7430521503156320295}
   _speed: 2
+  _maskEquipAnimation: {fileID: -203655887218126122, guid: baea7e87226ba466f95bcdfaa0bdb8be, type: 3}
+  _handMaskHoldPoint: {fileID: 5498505829143013896}
+  _faceMaskHoldPoint: {fileID: 3624305486510000456}
 --- !u!95 &7430521503156320295
 Animator:
   serializedVersion: 7
@@ -190,3 +266,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!4 &6462084549110007398 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7960280721370981414, guid: b6403059da07344c1b35f1e86b993b0d, type: 3}
+  m_PrefabInstance: {fileID: 5200119847042997692}
+  m_PrefabAsset: {fileID: 0}

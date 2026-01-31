@@ -11,6 +11,9 @@ namespace KillerLocomotion
         [SerializeField] private AnimationClip[] _animations_out;
         [SerializeField] private Animator _animator;
         [SerializeField] private float _speed = 2f;
+        [SerializeField] private AnimationClip _maskEquipAnimation;
+        [SerializeField] private Transform _handMaskHoldPoint;
+        [SerializeField] private Transform _faceMaskHoldPoint;
 
         public Sequence IncomingMovementSequence;
         
@@ -81,6 +84,37 @@ namespace KillerLocomotion
                 previousPosition = targetPosition;
             }
             _movementSequence.Play();
+        }
+        
+        public void PlayMaskEquipAnimation(GameObject mask)
+        {
+            // 1. Maskeyi duplicate et
+            GameObject maskInstance = Instantiate(mask);
+            maskInstance.transform.SetPositionAndRotation(_handMaskHoldPoint.position, _handMaskHoldPoint.rotation);
+            maskInstance.transform.SetParent(_handMaskHoldPoint, worldPositionStays: true);
+            mask.SetActive(false);
+            
+            // 2. Hand hold point'e DOTween ile pozisyon ve rotasyon animasyonu (gerekirse parent'ı world'de bırak)
+            float handLerpDuration = 0.3f;
+            float animDuration = _maskEquipAnimation.length;
+            float faceLerpDelay = animDuration * 0.8f;
+            float faceLerpDuration = 0.3f;
+
+            Sequence maskSeq = DOTween.Sequence();
+            // Hand'e doğru hızlıca lerple
+            maskSeq.Append(maskInstance.transform.DOMove(_handMaskHoldPoint.position, handLerpDuration).SetEase(Ease.InOutSine));
+            maskSeq.Join(maskInstance.transform.DORotateQuaternion(_handMaskHoldPoint.rotation, handLerpDuration).SetEase(Ease.InOutSine));
+            // 3. Mask equip animasyonunu başlat
+            maskSeq.AppendCallback(() => _animator.Play(_maskEquipAnimation.name));
+            // 4. Animasyonun %80'inde maskeyi yüze taşı
+            maskSeq.AppendInterval(faceLerpDelay - handLerpDuration); // handLerp'den kalan süre kadar bekle
+            maskSeq.Append(maskInstance.transform.DOMove(_faceMaskHoldPoint.position, faceLerpDuration).SetEase(Ease.InOutSine));
+            maskSeq.Join(maskInstance.transform.DORotateQuaternion(_faceMaskHoldPoint.rotation, faceLerpDuration).SetEase(Ease.InOutSine));
+            // 5. Maskeyi parent olarak yüze al, animasyon bitince maskeyi yok et
+            maskSeq.AppendCallback(() => maskInstance.transform.SetParent(_faceMaskHoldPoint, worldPositionStays: true));
+            maskSeq.AppendInterval(animDuration - faceLerpDelay - faceLerpDuration);
+            maskSeq.AppendCallback(() => Destroy(maskInstance));
+            maskSeq.Play();
         }
         
         public void ResetMovementLocomotion()
