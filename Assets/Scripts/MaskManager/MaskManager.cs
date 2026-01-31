@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class MaskManager : MonoBehaviour
 {
-	public GameObject CurrentMask;
+	public GameObject InitialMask;
 
 	private void Start()
 	{
-		CurrentMask = FindFirstObjectByType<InitialMask>().gameObject;
-		Debug.Assert(CurrentMask != null);
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum CarvingMode
@@ -32,6 +33,11 @@ public enum CarvingMode
         private Vector3? lastDragWorldPos;
 
         private MeshCollider meshCollider;
+
+        private void Awake()
+        {
+            Debug.LogError("MaskCarvingMode awake");
+        }
 
         public void SetCarvingMode(CarvingMode mode)
         {
