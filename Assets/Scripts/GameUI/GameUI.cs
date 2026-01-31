@@ -1,8 +1,5 @@
 using UnityEngine;
 
-namespace GameUI
+public class GameUI : MonoBehaviour
 {
-	public class GameUI : MonoBehaviour
-	{
-	}
 }
