@@ -81,6 +81,8 @@ namespace DeskModule
                         meshRenderer.materials = newMats;
                         _outlineMaterials[mesh] = newMats[1];
                     }
+                    // GameObject'i başta kapat
+                    mesh.gameObject.SetActive(false);
                 }
             }
             if (MaskObject != null)
@@ -90,6 +92,8 @@ namespace DeskModule
                     _originalPositions[MaskObject.transform] = MaskObject.transform.position;
                     MaskObject.transform.position += Vector3.up;
                 }
+                // MaskObject'i başta kapat
+                MaskObject.SetActive(false);
             }
         }
 
@@ -161,6 +165,8 @@ namespace DeskModule
                     Vector3 from = show ? mesh.transform.position : _originalPositions[mesh.transform];
                     Vector3 to = show ? _originalPositions[mesh.transform] : _originalPositions[mesh.transform] + Vector3.up;
                     StartCoroutine(MoveMesh(mesh.transform, from, to, duration));
+                    // GameObject'i show'a göre aç/kapat
+                    mesh.gameObject.SetActive(show);
                     yield return new WaitForSeconds(delay);
                 }
             }
@@ -170,6 +176,8 @@ namespace DeskModule
                 Vector3 from = show ? MaskObject.transform.position : _originalPositions[MaskObject.transform];
                 Vector3 to = show ? _originalPositions[MaskObject.transform] : _originalPositions[MaskObject.transform] + Vector3.up; 
                 StartCoroutine(MoveMesh(MaskObject.transform, from, to, duration));
+                // MaskObject'i show'a göre aç/kapat
+                MaskObject.SetActive(show);
                 yield return new WaitForSeconds(delay);
             }
             _isAnimating = false;
