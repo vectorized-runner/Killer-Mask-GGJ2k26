@@ -21,7 +21,9 @@ public class TexturePaintingModule : MonoBehaviour
     private GameObject _previewCursor;
     private Material _previewMaterial;
     private Texture2D _defaultBrushTexture;
-
+    
+    public bool IsEnabled { get; set; }
+    
     private void Start()
     {
         _cam = Camera.main;
@@ -31,6 +33,11 @@ public class TexturePaintingModule : MonoBehaviour
 
     private void Update()
     {
+        if (!IsEnabled)
+        {
+            return;
+        }
+        
         HandleInput();
         UpdatePreview();
 
