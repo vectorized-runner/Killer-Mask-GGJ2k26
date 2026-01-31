@@ -95,7 +95,8 @@ public class TexturePaintingModule : MonoBehaviour
         }
 
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        int maskLayer = LayerMask.GetMask("Mask");
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
         {
             Renderer rend = hit.collider.GetComponent<Renderer>();
             if (rend != null && (rend.material.mainTexture != null || (rend.material.shader.name.Contains("Standard") || rend.material.shader.name.Contains("Lit"))))
@@ -196,10 +197,10 @@ public class TexturePaintingModule : MonoBehaviour
         if (_cam == null) return;
 
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        int maskLayer = LayerMask.GetMask("Mask");
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
         {
             Renderer rend = hit.collider.GetComponent<Renderer>();
-            
             // Texture coordinates are only available on MeshCollider
             if (rend == null || hit.collider as MeshCollider == null)
                 return;

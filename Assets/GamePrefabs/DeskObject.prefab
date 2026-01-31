@@ -450,6 +450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mask-2
       objectReference: {fileID: 0}
+    - target: {fileID: 3918087696617859245, guid: 817b5cde90e484d359b5d6b1ebc0c898, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4401152274182451735, guid: 817b5cde90e484d359b5d6b1ebc0c898, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

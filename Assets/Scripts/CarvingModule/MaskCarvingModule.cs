@@ -104,8 +104,8 @@ namespace CarvingModule
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = default;
-
-            bool hitTarget = targetCollider != null && targetCollider.Raycast(ray, out hit, 100f);
+            int maskLayer = LayerMask.GetMask("Mask");
+            bool hitTarget = targetCollider != null && targetCollider.Raycast(ray, out hit, 100f) && ((1 << targetCollider.gameObject.layer) & maskLayer) != 0;
 
             if (hitTarget)
             {
