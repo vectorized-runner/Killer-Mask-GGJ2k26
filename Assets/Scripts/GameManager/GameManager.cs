@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using KillerLocomotion;
+using Scene;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,8 @@ namespace GameManager
 	public class GameManager : MonoBehaviour
 	{
 		public GameState State;
+		public float KillerComeInDelay = 0.5f;
+		public float DoorCloseDelay = 0.5f;
 		
 		private FreelookCamera _freelookCam;
 		private KillerLocomotionController _killer;
@@ -65,8 +68,19 @@ namespace GameManager
 			_freelookCam.enabled = true;
 
 			yield return new WaitUntil(() => State == GameState.Incoming);
+			Debug.LogError("State = Incoming");
+
+			var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
+			yield return coroutine;
+			
+
+			yield return new WaitForSeconds(KillerComeInDelay);
 			
 			_killer.StartInComingMovementLocomotion();
+			
+			yield return new WaitForSeconds(DoorCloseDelay);
+			
+			StartCoroutine(FindFirstObjectByType<AutoDoorScript>().CloseDoor());
 
 			yield return new WaitUntil(() => _killer.IncomingMovementSequence.IsComplete());
 			

@@ -21,17 +21,7 @@ namespace Scene
                 _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player") && !_isOpen)
-            {
-                if (_doorCoroutine != null)
-                    StopCoroutine(_doorCoroutine);
-                _doorCoroutine = StartCoroutine(OpenAndCloseDoor());
-            }
-        }
-
-        private IEnumerator OpenAndCloseDoor()
+        public IEnumerator OpenDoor()
         {
             _isOpen = true;
             // Play sound
@@ -39,11 +29,12 @@ namespace Scene
             {
                 _audioSource.PlayOneShot(_openSound);
             }
-            // Open door
+            
             yield return RotateDoor(Quaternion.Euler(_closedRotation), Quaternion.Euler(_openRotation));
-            // Wait
-            yield return new WaitForSeconds(_openDuration);
-            // Close door
+        }
+        
+        public IEnumerator CloseDoor()
+        {
             yield return RotateDoor(Quaternion.Euler(_openRotation), Quaternion.Euler(_closedRotation));
             _isOpen = false;
         }

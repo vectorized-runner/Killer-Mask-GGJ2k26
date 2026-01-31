@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdf591154c74ad88905d7250f5344b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Scripts::GameManager.GameManager
+  State: 0
+  KillerComeInDelay: 0.5
+  DoorCloseDelay: 1
