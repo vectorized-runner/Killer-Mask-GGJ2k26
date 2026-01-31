@@ -20,8 +20,8 @@ public enum CarvingMode
         [SerializeField] private float brushStrength = 0.1f;
         [SerializeField] private bool useSanding = false;
 
-        [Header("Mode Settings")]
-        [SerializeField] private CarvingMode currentMode;
+        [NonSerialized]
+        private CarvingMode currentMode;
 
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 200f;
@@ -46,6 +46,8 @@ public enum CarvingMode
         
         public void SetMask(GameObject mask)
         {
+            Debug.Assert(mask != null);
+            
             maskObject = mask;
             
             CreateBrushVisual();
