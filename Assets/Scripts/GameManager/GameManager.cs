@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		Instance = this;
+		_carvingModule = FindFirstObjectByType<CarvingModule>();
 	}
 
 	public void SelectDeskTool(DeskTool tool)
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
 		{
 			case DeskTool.Knife:
 			{
+				_carvingModule.SetMask(_maskManager.CurrentMask);
 				break;
 			}
 			case DeskTool.Brush:
