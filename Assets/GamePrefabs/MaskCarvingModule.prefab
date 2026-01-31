@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316fdef6678e4d59bc99c29898546e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Scripts::CarvingModule.MaskCarvingModule
-  maskObject: {fileID: 0}
+  Unlit: {fileID: 2100000, guid: 334e3de97a7354716ab1c4ff99a72b36, type: 2}
   brushSize: 0.05
   brushStrength: 0.01
   useSanding: 0
