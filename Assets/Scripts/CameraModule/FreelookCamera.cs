@@ -31,6 +31,14 @@ namespace CameraModule
 			Cursor.visible = false;
 		}
 
+		void OnEnable()
+		{
+			// Her enable olduğunda mevcut rotasyonu referans al
+			startYaw = this.transform.eulerAngles.y;
+			yaw = startYaw;
+			pitch = this.transform.eulerAngles.x;
+		}
+
 		void Update()
 		{
 			float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;

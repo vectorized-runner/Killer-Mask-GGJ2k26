@@ -30,6 +30,9 @@ namespace CameraModule
         [SerializeField]
         private float _rotateSpeed = 3f;
 
+        [SerializeField]
+        private FreelookCamera _freelookCamera; // Inspector'dan atanacak
+
         private Transform _targetTransform;
         private bool _isMoving = false;
 
@@ -47,10 +50,8 @@ namespace CameraModule
         {
             if (_isMoving && _targetTransform != null)
             {
-                Debug.Log($"Camera Pos: {_cameraTransform.position}, Rot: {_cameraTransform.rotation.eulerAngles}");
-                Debug.Log($"Target Pos: {_targetTransform.position}, Rot: {_targetTransform.rotation.eulerAngles}");
-                Debug.Log($"Rot Angle Diff: {Quaternion.Angle(_cameraTransform.rotation, _targetTransform.rotation)}");
-                
+                if (_freelookCamera != null && _freelookCamera.enabled)
+                    _freelookCamera.enabled = false;
                 _cameraTransform.position = Vector3.Lerp(_cameraTransform.position, _targetTransform.position, Mathf.Clamp01(Time.deltaTime * _moveSpeed));
                 _cameraTransform.rotation = Quaternion.Slerp(_cameraTransform.rotation, _targetTransform.rotation, Mathf.Clamp01(Time.deltaTime * (_rotateSpeed * 3f)));
 
@@ -60,18 +61,9 @@ namespace CameraModule
                     _cameraTransform.position = _targetTransform.position;
                     _cameraTransform.rotation = _targetTransform.rotation;
                     _isMoving = false;
+                    if (_freelookCamera != null && !_freelookCamera.enabled)
+                        _freelookCamera.enabled = true;
                 }
-            }
-            // TEST: T tuşuna basınca kamerayı anında hedefe döndür
-            if (Input.GetKeyDown(KeyCode.T) && _targetTransform != null)
-            {
-                Debug.Log($"[TEST] _cameraTransform: {_cameraTransform.name}");
-                if (_cameraTransform.parent != null)
-                {
-                    Debug.Log($"[TEST] _cameraTransform parent: {_cameraTransform.parent.name}, parent rot: {_cameraTransform.parent.rotation.eulerAngles}");
-                }
-                _cameraTransform.rotation = _targetTransform.rotation;
-                Debug.Log($"[TEST] T basıldıktan sonra kamera rotasyonu: {_cameraTransform.rotation.eulerAngles}");
             }
         }
 

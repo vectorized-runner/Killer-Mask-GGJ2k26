@@ -117,6 +117,7 @@ MonoBehaviour:
     TargetTransform: {fileID: 2735500714359840431}
   _moveSpeed: 3
   _rotateSpeed: 3
+  _freelookCamera: {fileID: 551791599354672517}
 --- !u!1001 &2593409021879968621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,6 +183,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
+--- !u!114 &551791599354672517 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2618271759121946344, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
+  m_PrefabInstance: {fileID: 2593409021879968621}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c555b2b002ee47fca6590b624481e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::FreelookCamera
 --- !u!4 &952700885675416722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3370117126383796223, guid: 1dc5eb48b20124c9d92f4b632713b0b2, type: 3}
