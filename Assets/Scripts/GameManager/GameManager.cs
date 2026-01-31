@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 	public float KillerComeInDelay = 0.5f;
 	public float DoorCloseDelay = 0.5f;
 	public float MaskEditDelay = 1.0f;
+	public float MoveOutDelay = 5.0f;
 
 	private KillerLocomotionController _killer;
 	private MaskCarvingModule _carvingModule;
@@ -156,10 +157,13 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil(() => State == GameState.MaskOn);
 		
-		// TODO: Make animation to put the mask on
+		_cameraManager.MoveToPosition(CameraPositionType.Default);
+		
+		_killer.PlayMaskEquipAnimation(_maskManager.InitialMask);
+		
 		Debug.LogError("Mask On State");
-		yield return new WaitForSeconds(1.0f);
-
+		yield return new WaitForSeconds(MoveOutDelay);
+		
 		State = GameState.KillerOutgoing;
 		_killer.StartOutGoingMovementLocomotion();
 

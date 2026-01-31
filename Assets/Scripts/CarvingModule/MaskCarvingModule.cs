@@ -21,7 +21,7 @@ public enum CarvingMode
         [SerializeField] private bool useSanding = false;
 
         [Header("Mode Settings")]
-        [SerializeField] private CarvingMode currentMode = CarvingMode.Carve;
+        [SerializeField] private CarvingMode currentMode;
 
         [Header("Rotation Settings")]
         [SerializeField] private float rotationSpeed = 200f;

@@ -4191,6 +4191,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 493860, guid: a73967be39a7cc74ca310e8a9d9de82d, type: 3}
   m_PrefabInstance: {fileID: 1603935758}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1626166126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3250954355278234193, guid: 2e60a7755c7fa414da985d6d7c7fc8c3, type: 3}
+  m_PrefabInstance: {fileID: 6038169781518807103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1668387901
 GameObject:
   m_ObjectHideFlags: 0
@@ -5243,6 +5248,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 588923952475892780, guid: fa0f89f5dae214b1889bf770a0195bac, type: 3}
+      propertyPath: InitialMask
+      value: 
+      objectReference: {fileID: 1626166126}
     - target: {fileID: 7493470760945805041, guid: fa0f89f5dae214b1889bf770a0195bac, type: 3}
       propertyPath: m_Name
       value: MaskManager
