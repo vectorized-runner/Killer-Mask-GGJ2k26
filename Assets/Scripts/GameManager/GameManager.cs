@@ -8,115 +8,153 @@ using Scene;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GameManager
+public enum GameState
 {
-	public enum GameState
+	WaitingForStartInput,
+	KillerIncoming,
+	TableSetup,
+	MaskCarving,
+	MaskOn,
+	KillerOutgoing,
+	End,
+}
+
+public class GameManager : MonoBehaviour
+{
+	public GameState State;
+	public float KillerComeInDelay = 0.5f;
+	public float DoorCloseDelay = 0.5f;
+	public float MaskEditDelay = 1.0f;
+
+	private KillerLocomotionController _killer;
+	private MaskCarvingModule _carvingModule;
+	private CameraManager _cameraManager;
+	private DeskTool _currentDeskTool;
+
+	public static GameManager Instance { get; private set; }
+
+	private void Awake()
 	{
-		WaitingForStartInput,
-		KillerIncoming,
-		TableSetup,
-		MaskCarving,
-		MaskOn,
-		KillerOutgoing,
-		End,
+		Instance = this;
 	}
-	
-	public class GameManager : MonoBehaviour
+
+	public void SelectDeskTool(DeskTool tool)
 	{
-		public GameState State;
-		public float KillerComeInDelay = 0.5f;
-		public float DoorCloseDelay = 0.5f;
-		public float MaskEditDelay = 1.0f;
+		if (State != GameState.MaskCarving)
+		{
+			return;
+		}
+
+		if (_currentDeskTool == tool)
+		{
+			return;
+		}
+
+		Debug.LogError(tool);
 		
-		private KillerLocomotionController _killer;
-		private MaskCarvingModule _carvingModule;
-		private CameraManager _cameraManager;
-		private DeskTool _currentDeskTool;
-		
-		private void Start()
+		switch (tool)
 		{
-			State = GameState.WaitingForStartInput;
-			
-			_killer = FindFirstObjectByType<KillerLocomotionController>();
-			_cameraManager = FindFirstObjectByType<CameraManager>();
-			StartCoroutine(GameLoop());
+			case DeskTool.Knife:
+			{
+				break;
+			}
+			case DeskTool.Brush:
+			{
+				break;
+			}
+			case DeskTool.Decal:
+			{
+				break;
+			}
+			case DeskTool.None:
+			default:
+				throw new ArgumentOutOfRangeException(nameof(tool), tool, null);
+		}
+	}
+
+	private void Start()
+	{
+		State = GameState.WaitingForStartInput;
+
+		_killer = FindFirstObjectByType<KillerLocomotionController>();
+		_cameraManager = FindFirstObjectByType<CameraManager>();
+		StartCoroutine(GameLoop());
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			SceneManager.LoadScene("Game");
 		}
 
-		private void Update()
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			if (Input.GetKeyDown(KeyCode.R))
+			if (State == GameState.WaitingForStartInput)
 			{
-				SceneManager.LoadScene("Game");
+				State = GameState.KillerIncoming;
 			}
 
-			if (Input.GetKeyDown(KeyCode.Space))
+			if (State == GameState.MaskCarving)
 			{
-				if (State == GameState.WaitingForStartInput)
-				{
-					State = GameState.KillerIncoming;
-				}
-
-				if (State == GameState.MaskCarving)
-				{
-					State = GameState.MaskOn;
-				}
-			}
-			
-			if (Input.GetKeyDown(KeyCode.Alpha1))
-			{
-				Time.timeScale = 1.0f;
-			}
-			if (Input.GetKeyDown(KeyCode.Alpha2))
-			{
-				Time.timeScale = 2.0f;
-			}
-			if (Input.GetKeyDown(KeyCode.Alpha3))
-			{
-				Time.timeScale = 3.0f;
+				State = GameState.MaskOn;
 			}
 		}
 
-		private IEnumerator GameLoop()
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
-
-			yield return new WaitUntil(() => State == GameState.KillerIncoming);
-			Debug.LogError("State = Incoming");
-
-			FindFirstObjectByType<GameUI>().gameObject.SetActive(false);
-			
-			var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
-			yield return coroutine;
-			
-			yield return new WaitForSeconds(KillerComeInDelay);
-			
-			_killer.StartInComingMovementLocomotion();
-			
-			yield return new WaitForSeconds(DoorCloseDelay);
-			
-			StartCoroutine(FindFirstObjectByType<AutoDoorScript>().CloseDoor());
-
-			yield return new WaitUntil(() => !_killer.IncomingMovementSequence.active);
-
-			State = GameState.TableSetup;
-			
-			_cameraManager.MoveToPosition(CameraPositionType.MaskEditing);
-			yield return new WaitForSeconds(MaskEditDelay);
-
-			State = GameState.MaskCarving;
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-			
-			var deskModule = FindFirstObjectByType<DeskModuleController>();
-			deskModule.EnableDeskModule();
-			
-			yield return new WaitUntil(() => State == GameState.MaskOn);
-			
-			Debug.LogError("Done");
-			
-			yield return null;
+			Time.timeScale = 1.0f;
 		}
 
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			Time.timeScale = 2.0f;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			Time.timeScale = 3.0f;
+		}
+	}
+
+	private IEnumerator GameLoop()
+	{
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+
+		yield return new WaitUntil(() => State == GameState.KillerIncoming);
+
+		FindFirstObjectByType<GameUI>().gameObject.SetActive(false);
+
+		var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
+		yield return coroutine;
+
+		yield return new WaitForSeconds(KillerComeInDelay);
+
+		_killer.StartInComingMovementLocomotion();
+
+		yield return new WaitForSeconds(DoorCloseDelay);
+
+		StartCoroutine(FindFirstObjectByType<AutoDoorScript>().CloseDoor());
+
+		yield return new WaitUntil(() => !_killer.IncomingMovementSequence.active);
+
+		State = GameState.TableSetup;
+
+		_cameraManager.MoveToPosition(CameraPositionType.MaskEditing);
+		yield return new WaitForSeconds(MaskEditDelay);
+
+		State = GameState.MaskCarving;
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
+
+		var deskModule = FindFirstObjectByType<DeskModuleController>();
+		deskModule.EnableDeskModule();
+
+		yield return new WaitUntil(() => State == GameState.MaskOn);
+
+		Debug.LogError("Done");
+
+		yield return null;
 	}
 }
