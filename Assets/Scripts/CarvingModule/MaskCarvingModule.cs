@@ -28,7 +28,7 @@ namespace CarvingModule
 
         private MeshCollider meshCollider;
 
-        private void Start()
+        public void SetMask(GameObject mask)
         {
             CreateBrushVisual();
 
