@@ -74,7 +74,8 @@ namespace GameManager
 
 		private IEnumerator GameLoop()
 		{
-			_freelookCam.enabled = true;
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 
 			yield return new WaitUntil(() => State == GameState.KillerIncoming);
 			Debug.LogError("State = Incoming");

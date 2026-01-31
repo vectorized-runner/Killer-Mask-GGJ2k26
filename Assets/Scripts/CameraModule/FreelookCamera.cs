@@ -26,9 +26,6 @@ namespace CameraModule
 			startYaw = this.transform.eulerAngles.y;
 			yaw = startYaw;
 			pitch = this.transform.eulerAngles.x;
-
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
 		}
 
 		void OnEnable()
