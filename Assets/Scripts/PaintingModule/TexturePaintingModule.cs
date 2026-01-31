@@ -40,11 +40,7 @@ public class TexturePaintingModule : MonoBehaviour
         
         HandleInput();
         UpdatePreview();
-
-        if (Input.GetMouseButton(0))
-        {
-            Paint();
-        }
+        Paint();
     }
 
     private void HandleInput()
@@ -200,33 +196,38 @@ public class TexturePaintingModule : MonoBehaviour
 
     private void Paint()
     {
-        if (_cam == null) _cam = Camera.main;
-        if (_cam == null) return;
-
+        if (!Input.GetMouseButton(0))
+        {
+            Debug.LogWarning("No input");
+            return;
+        }
+        
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         int maskLayer = LayerMask.GetMask("Mask");
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
         {
-            Renderer rend = hit.collider.GetComponent<Renderer>();
-            // Texture coordinates are only available on MeshCollider
-            if (rend == null || hit.collider as MeshCollider == null)
-                return;
+            return;
+        }
+        
+        Renderer rend = hit.collider.GetComponent<Renderer>();
+        // Texture coordinates are only available on MeshCollider
+        if (rend == null || hit.collider as MeshCollider == null)
+            return;
 
-            Texture2D tex = GetTexture(rend);
-            if (tex == null) return;
+        Texture2D tex = GetTexture(rend);
+        if (tex == null) return;
 
-            Vector2 pixelUV = hit.textureCoord;
-            pixelUV.x *= tex.width;
-            pixelUV.y *= tex.height;
+        Vector2 pixelUV = hit.textureCoord;
+        pixelUV.x *= tex.width;
+        pixelUV.y *= tex.height;
 
-            if (useSticker && stickerTexture != null)
-            {
-                ApplySticker(tex, pixelUV);
-            }
-            else
-            {
-                ApplyBrush(tex, pixelUV);
-            }
+        if (useSticker && stickerTexture != null)
+        {
+            ApplySticker(tex, pixelUV);
+        }
+        else
+        {
+            ApplyBrush(tex, pixelUV);
         }
     }
 
