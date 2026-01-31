@@ -46,6 +46,8 @@ public enum CarvingMode
         
         public void SetMask(GameObject mask)
         {
+            Debug.Assert(mask != null);
+            
             maskObject = mask;
             
             CreateBrushVisual();

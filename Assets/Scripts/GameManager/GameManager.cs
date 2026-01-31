@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 		{
 			case DeskTool.Knife:
 			{
-				// _carvingModule.SetMask(_maskManager.CurrentMask);
+				_carvingModule.SetMask(_maskManager.InitialMask);
 				break;
 			}
 			case DeskTool.Brush:
