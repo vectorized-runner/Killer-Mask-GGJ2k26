@@ -84,6 +84,8 @@ namespace GameManager
 			yield return new WaitUntil(() => State == GameState.KillerIncoming);
 			Debug.LogError("State = Incoming");
 
+			FindFirstObjectByType<GameUI>().gameObject.SetActive(false);
+			
 			var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
 			yield return coroutine;
 			
