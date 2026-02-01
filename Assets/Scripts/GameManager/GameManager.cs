@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
-		Debug.LogError($"Set Tool to {tool}");
+		Debug.Log($"Set Tool to {tool}");
 		
 		switch (tool)
 		{
@@ -190,7 +190,6 @@ public class GameManager : MonoBehaviour
 		
 		_killer.PlayMaskEquipAnimation(_maskManager.InitialMask);
 		
-		Debug.LogError("Mask On State");
 		yield return new WaitForSeconds(MoveOutDelay);
 		
 		State = GameState.KillerOutgoing;
@@ -198,7 +197,6 @@ public class GameManager : MonoBehaviour
 
 		yield return new WaitUntil(() => !_killer.OutgoingMovementSequence.active);
 
-		Debug.LogError("Done");
 
 		yield return null;
 	}
