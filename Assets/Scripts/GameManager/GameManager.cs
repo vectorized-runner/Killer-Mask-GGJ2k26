@@ -26,13 +26,16 @@ public class GameManager : MonoBehaviour
 	public float MaskEditDelay = 1.0f;
 	public float MoveOutDelay = 5.0f;
 
+	public Texture2D CursorTex;
+	
 	private KillerLocomotionController _killer;
 	private MaskCarvingModule _carvingModule;
 	private CameraManager _cameraManager;
 	private MaskManager _maskManager;
 	private DeskTool _currentDeskTool;
 	private TexturePaintingModule _texPaintModule;
-
+	private GameUI _gameUI;
+	
 	public static GameManager Instance { get; private set; }
 
 	private void Awake()
@@ -41,6 +44,10 @@ public class GameManager : MonoBehaviour
 		_maskManager = FindFirstObjectByType<MaskManager>();
 		_carvingModule = FindFirstObjectByType<MaskCarvingModule>();
 		_texPaintModule = FindFirstObjectByType<TexturePaintingModule>();
+		_gameUI = FindAnyObjectByType<GameUI>();
+		
+		var hotspot = new Vector2(CursorTex.width / 2, CursorTex.height / 2);
+		Cursor.SetCursor(CursorTex, hotspot, CursorMode.Auto);
 	}
 
 	public void SelectDeskTool(DeskTool tool)
@@ -134,13 +141,15 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator GameLoop()
 	{
+		_gameUI.Cursor.enabled = false;
+		
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 
 		yield return new WaitUntil(() => State == GameState.KillerIncoming);
 
-		FindFirstObjectByType<GameUI>().gameObject.SetActive(false);
-
+		_gameUI.Text.enabled = false;
+		
 		var coroutine = StartCoroutine(FindFirstObjectByType<AutoDoorScript>().OpenDoor());
 		yield return coroutine;
 
@@ -158,6 +167,9 @@ public class GameManager : MonoBehaviour
 
 		_cameraManager.MoveToPosition(CameraPositionType.MaskEditing);
 		yield return new WaitForSeconds(MaskEditDelay);
+		
+		_gameUI.Cursor.enabled = true;
+		Cursor.visible = true;
 
 		State = GameState.MaskCarving;
 		Cursor.lockState = CursorLockMode.None;
