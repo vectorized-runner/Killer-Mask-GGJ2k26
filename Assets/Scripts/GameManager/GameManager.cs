@@ -141,8 +141,6 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator GameLoop()
 	{
-		_gameUI.Cursor.enabled = false;
-		
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 
@@ -168,7 +166,6 @@ public class GameManager : MonoBehaviour
 		_cameraManager.MoveToPosition(CameraPositionType.MaskEditing);
 		yield return new WaitForSeconds(MaskEditDelay);
 		
-		_gameUI.Cursor.enabled = true;
 		Cursor.visible = true;
 
 		State = GameState.MaskCarving;
