@@ -48,5 +48,5 @@ MonoBehaviour:
   KillerComeInDelay: 0.5
   DoorCloseDelay: 1
   MaskEditDelay: 1
-  MoveOutDelay: 2
+  MoveOutDelay: 5
   CursorTex: {fileID: 2800000, guid: 05ee6def303f88c41a9d4544848771b4, type: 3}
