@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
 	private DeskTool _currentDeskTool;
 	private TexturePaintingModule _texPaintModule;
 	private GameUI _gameUI;
+	private int _currentMaskMaterialIndex;
+	private MaskMaterialSetter _maskMaterialSetter;
 	
 	public static GameManager Instance { get; private set; }
 
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
 		_maskManager = FindFirstObjectByType<MaskManager>();
 		_carvingModule = FindFirstObjectByType<MaskCarvingModule>();
 		_texPaintModule = FindFirstObjectByType<TexturePaintingModule>();
+		_maskMaterialSetter = FindFirstObjectByType<MaskMaterialSetter>();
 		_gameUI = FindAnyObjectByType<GameUI>();
 		
 		var hotspot = new Vector2(CursorTex.width / 2, CursorTex.height / 2);
@@ -72,6 +75,8 @@ public class GameManager : MonoBehaviour
 				_carvingModule.CarvingMode = CarvingMode.Carve;
 
 				_texPaintModule.IsEnabled = false;
+
+				_maskMaterialSetter.IsEnabled = false;
 				break;
 			}
 			case DeskTool.Brush:
@@ -79,6 +84,8 @@ public class GameManager : MonoBehaviour
 				_carvingModule.CarvingMode = CarvingMode.Disabled;
 				
 				_texPaintModule.IsEnabled = true;
+
+				_maskMaterialSetter.IsEnabled = false;
 				break;
 			}
 			case DeskTool.Decal:
@@ -86,6 +93,8 @@ public class GameManager : MonoBehaviour
 				_carvingModule.CarvingMode = CarvingMode.Disabled;
 
 				_texPaintModule.IsEnabled = false;
+
+				_maskMaterialSetter.IsEnabled = true;
 				break;
 			}
 			case DeskTool.None:
@@ -122,7 +131,7 @@ public class GameManager : MonoBehaviour
 				State = GameState.MaskOn;
 			}
 		}
-
+		
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			Time.timeScale = 1.0f;

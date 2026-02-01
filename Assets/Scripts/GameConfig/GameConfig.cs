@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameConfig : ScriptableObject
 {
     public GameObject[] Masks;
+    public Material[] MaskMaterials;
 
     public static GameConfig Instance { get; private set; }
     
