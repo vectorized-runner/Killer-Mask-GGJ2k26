@@ -206,7 +206,6 @@ public class TexturePaintingModule : MonoBehaviour
         var maskLayer = LayerMask.GetMask("Mask");
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, maskLayer))
         {
-            Debug.LogError("No hit");
             return;
         }
 
