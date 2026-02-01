@@ -65,23 +65,26 @@ namespace KillerLocomotion
         public void StartOutGoingMovementLocomotion()
         {
             OutgoingMovementSequence = DOTween.Sequence();
-            Vector3 previousPosition = transform.position;
             for (int i = 0; i < _waypoints_out.Length; i++)
             {
                 int animIndex = i;
                 Vector3 targetPosition = _waypoints_out[i].position;
                 Quaternion targetRotation = _waypoints_out[i].rotation;
-                float distance = Vector3.Distance(previousPosition, targetPosition);
-                float duration = (distance < 0.01f) ? 0f : distance / _speed;
+
+                float duration = 2.0f;
                 OutgoingMovementSequence.AppendCallback(() => {
-                    if (_animations_out.Length > animIndex)
+
+                    if (animIndex == 0)
+                    {
+                        _animator.Play("Idle");
+                    }
+                    else if (_animations_out.Length > animIndex)
                     {
                         _animator.Play(_animations_out[animIndex].name);
                     }
                 });
                 OutgoingMovementSequence.Append(transform.DOMove(targetPosition, duration).SetEase(Ease.Linear));
                 OutgoingMovementSequence.Join(transform.DORotateQuaternion(targetRotation, duration).SetEase(Ease.Linear));
-                previousPosition = targetPosition;
             }
             OutgoingMovementSequence.Play();
         }

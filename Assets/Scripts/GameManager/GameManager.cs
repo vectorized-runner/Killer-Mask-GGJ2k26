@@ -193,6 +193,9 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(MoveOutDelay);
 		
 		State = GameState.KillerOutgoing;
+		
+		
+		
 		_killer.StartOutGoingMovementLocomotion();
 
 		yield return new WaitUntil(() => !_killer.OutgoingMovementSequence.active);
