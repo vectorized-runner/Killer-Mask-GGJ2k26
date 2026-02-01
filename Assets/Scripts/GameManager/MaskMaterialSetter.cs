@@ -21,13 +21,19 @@ public class MaskMaterialSetter : MonoBehaviour
 		
 		if (Input.GetMouseButtonDown(0))
 		{
-			CurrentMaterialIndex++;
-			if (CurrentMaterialIndex == GameConfig.Instance.MaskMaterials.Length)
+			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			var layerMask = LayerMask.GetMask("Mask");
+			
+			if (Physics.Raycast(ray, out var hit, 100f, layerMask))
 			{
-				CurrentMaterialIndex = 0;
-			}
+				CurrentMaterialIndex++;
+				if (CurrentMaterialIndex == GameConfig.Instance.MaskMaterials.Length)
+				{
+					CurrentMaterialIndex = 0;
+				}
 
-			Mask.GetComponentInChildren<Renderer>().material = GameConfig.Instance.MaskMaterials[CurrentMaterialIndex];
+				Mask.GetComponentInChildren<Renderer>().material = GameConfig.Instance.MaskMaterials[CurrentMaterialIndex];
+			}
 		}
 	}
 }
