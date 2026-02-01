@@ -18,3 +18,9 @@ MonoBehaviour:
   - {fileID: 5928942842161814116, guid: 5d204818e7c26421bbd729a03452aec9, type: 3}
   - {fileID: 6510003473678274051, guid: 8c4073b8c0de849629b6d7f9cfb009b6, type: 3}
   - {fileID: 1143627606698424152, guid: dc6b08ea5f6bb4800b4523a69b939478, type: 3}
+  MaskMaterials:
+  - {fileID: 2100000, guid: eb6b54a00622bca41b25db0702fee178, type: 2}
+  - {fileID: 2100000, guid: 528b288b99e055e4bb6c5c9021fda79e, type: 2}
+  - {fileID: 2100000, guid: ba8137ea4fd7a3447980261d85832753, type: 2}
+  - {fileID: 2100000, guid: 6d5145103ccc66040874f19f821af391, type: 2}
+  - {fileID: 2100000, guid: 07fbb417f374646bf8fa67be85abccd1, type: 2}
