@@ -6,10 +6,18 @@ public class GameConfig : ScriptableObject
     public GameObject[] Masks;
     public Material[] MaskMaterials;
 
-    public static GameConfig Instance { get; private set; }
-    
-    private void OnEnable()
+    public static GameConfig Instance
     {
-        Instance = this;
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = Resources.Load<GameConfig>("GameConfig");
+            }
+
+            return _instance;
+        }
     }
+
+    private static GameConfig _instance;
 }
